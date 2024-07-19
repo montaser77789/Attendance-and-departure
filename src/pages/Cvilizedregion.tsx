@@ -5,7 +5,6 @@ import Modal from "../components/ui/Modal";
 import Input from "../components/ui/Input";
 import Select from "react-select";
 
-// Define the options for the month select input
 const monthOptions = [
   { value: "January", label: "يناير" },
   { value: "February", label: "فبراير" },
@@ -24,7 +23,6 @@ const monthOptions = [
 const monthsData = [
   { id: 1, month: "يناير", startDate: "2024-01-01", endDate: "2024-01-31" },
   { id: 2, month: "فبراير", startDate: "2024-02-01", endDate: "2024-02-29" },
-  // Add more months here
 ];
 
 const Cvilizedregion = () => {

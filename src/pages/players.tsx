@@ -128,8 +128,8 @@ const Players = () => {
 
   return (
     <div className="w-full p-4 mt-20" dir="rtl">
-      <div className="flex justify-between  w-full mb-4 w">
-        <div className="w-[50%]">
+      <div className="flex justify-between gap-2 flex-wrap w-full mb-4 w">
+        <div className="md:w-[40%] w-[100%]">
 
         <Input
           type="text"
@@ -138,7 +138,10 @@ const Players = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         </div>
-        <Button onClick={() => setIsOpen(true)}>اضافه لاعب جديد</Button>
+        <div className="md:w-auto w-[100%]  flex justify-center">
+
+        <Button  className="align-center w-[100%]"  onClick={() => setIsOpen(true)}>اضافه لاعب جديد</Button>
+        </div>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredPlayers.map((player) => (

@@ -70,7 +70,7 @@ const NavBar = () => {
             </li>
             <li>
               <NavLink
-                to="/attendance"
+                to="/civilizedregion"
                 className={({ isActive }) =>
                   isActive
                     ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"

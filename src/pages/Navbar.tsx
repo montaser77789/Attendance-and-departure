@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+import logo from "../assets/photo_2024-07-20_00-20-04.png";
+
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,8 +19,7 @@ const NavBar = () => {
     <nav className="bg-gradient-to-r from-blue-900 to-blue-700 p-4 fixed top-0 left-0 right-0 max-w-full z-[0] shadow-lg" dir="rtl">
       <div className="container mx-auto flex justify-between items-center gap-0 md:gap-52">
         <a href="/" className="text-teal-400 font-bold text-2xl flex items-center">
-          الشعار
-        </a>
+        <img alt="logo" src={logo} className="w-14 h-11 rounded-full mr-2"/>        </a>
         <div className="flex gap-4">
           <div className="md:hidden" onClick={toggleMenu}>
             {isOpen ? (

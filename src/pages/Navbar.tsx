@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import logo from "../assets/photo_2024-07-20_00-20-04.png";
-
+import Cookies from "js-cookie";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const token = Cookies.get("access_token");
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -15,11 +17,18 @@ const NavBar = () => {
     setIsOpen(false);
   };
 
+  const handleLogout = () => {
+    Cookies.remove("access_token");
+    window.location.reload();
+    navigate("/login");
+  };
+
   return (
     <nav className="bg-gradient-to-r from-blue-900 to-blue-700 p-4 fixed top-0 left-0 right-0 max-w-full z-[0] shadow-lg" dir="rtl">
       <div className="container mx-auto flex justify-between items-center gap-0 md:gap-52">
         <a href="/" className="text-teal-400 font-bold text-2xl flex items-center">
-        <img alt="logo" src={logo} className="w-14 h-11 rounded-full mr-2"/>        </a>
+          <img alt="logo" src={logo} className="w-14 h-11 rounded-full mr-2"/>
+        </a>
         <div className="flex gap-4">
           <div className="md:hidden" onClick={toggleMenu}>
             {isOpen ? (
@@ -31,9 +40,7 @@ const NavBar = () => {
         </div>
         <div
           className={`fixed gap-2 top-0 right-0 w-full h-[70vh] md:h-full bg-gradient-to-r from-blue-900 to-blue-700 p-4 transform ${
-            isOpen
-              ? "translate-y-0"
-              : "-translate-y-full"
+            isOpen ? "translate-y-0" : "-translate-y-full"
           } transition-transform duration-500 ease-in-out md:relative md:translate-y-0 md:flex md:items-center md:bg-transparent md:p-0`}
         >
           <div className="flex justify-end md:hidden">
@@ -81,18 +88,31 @@ const NavBar = () => {
                 الحضور والانصرف
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/login"
-                className={({ isActive }) =>
-                  isActive
-                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"
-                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
-                }
-                onClick={handleLinkClick}
-              >
-                تسجيل الدخول
-              </NavLink>
+            {!token ? (
+              <li>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive
+                      ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"
+                      : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                  }
+                  onClick={handleLinkClick}
+                >
+                  تسجيل الدخول
+                </NavLink>
+              </li>
+            ) : (
+              <li>
+                <button
+                  onClick={handleLogout}
+                  className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                >
+                  تسجيل الخروج
+                </button>
+              </li>
+            )}
+            <li className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white">
             </li>
           </ul>
         </div>

@@ -1,4 +1,3 @@
-// src/router/index.jsx
 import { createBrowserRouter, createRoutesFromElements, Route } from "react-router-dom";
 import RootLayout from "../layouts/RootLayout";
 import Players from "../pages/players";
@@ -8,41 +7,50 @@ import LoginPage from "../pages/Login";
 import PlayerDetails from "../pages/PlayerDeatels"; // Import the new component
 import Cvilizedregion from "../pages/Cvilizedregion";
 import DaysPage from "../pages/DaysPage";
+import Cookies from "js-cookie";
+import TrainerDeatels from "../pages/TrainerSeatels";
 
-const email = "bCk2X@example.com";
+const token = Cookies.get("access_token");
+const isAuthenticated = !!token;
+console.log(token, isAuthenticated);
+
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<RootLayout />}>
-      <Route
-        path="login"
+       <Route
         index
-        element={
-          <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
-            <LoginPage />
-          </ProtectedRoute>
-        }
-      />
-      <Route
         path="/"
-        index
         element={
-          <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
+          <ProtectedRoute  isAllowed={isAuthenticated} redirectPath="/login">
             <Players />
           </ProtectedRoute>
         }
       />
+     
+        <Route
+        path="login"
+        
+        element={
+          <ProtectedRoute isAllowed={!isAuthenticated} redirectPath="/login">
+            <LoginPage />
+          </ProtectedRoute>
+        }
+      />
+     
+     
       <Route
         path="trainers"
         element={
-          <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
             <Trainer />
           </ProtectedRoute>
         }
       />
-          <Route
+      <Route
         path="civilizedregion"
         element={
-          <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login" >
             <Cvilizedregion />
           </ProtectedRoute>
         }
@@ -50,22 +58,27 @@ const router = createBrowserRouter(
       <Route
         path="players/:playerId" 
         element={
-          <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login" >
             <PlayerDetails />
           </ProtectedRoute>
         }
       />
-       <Route path="civilizedregion" element={
-                <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
-                    <Cvilizedregion />
-                </ProtectedRoute>
-            } />
-
-            <Route path="days/:monthId" element={
-                <ProtectedRoute isAllowed={true} redirectPath="/" data={email}>
-                    <DaysPage />
-                </ProtectedRoute>
-            } />
+         <Route
+        path="trainers/:trainerId" 
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login" >
+            <TrainerDeatels />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="days/:monthId"
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login" >
+            <DaysPage />
+          </ProtectedRoute>
+        }
+      />
     </Route>
   )
 );

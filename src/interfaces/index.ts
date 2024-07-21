@@ -1,9 +1,10 @@
 export interface Player {
-    id: number;
-    firstName: string;
+    _id: string;
+    name: string;
     nationality: string;
     idNumber: string;
-    image: string | File | undefined; // Allow both string and File
+    card_Number:  string;
+    picture: string  
     birthday: string;
     phoneNumber: string;
     category: string;

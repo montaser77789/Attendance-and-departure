@@ -9,13 +9,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-[#00e8c1]  hover:bg-[#62efd7] text-white font-bold cursor-pointer",
+          "bg-[#00e8c1] flex justify-center gap-2  hover:bg-[#62efd7] text-white font-bold cursor-pointer",
         danger:
-          "bg-[#f20c0c] dark:bg-[#f20c0c] dark:text-white dark:hover:bg-red-700  hover:opacity-80 cursor-pointer",
+          "bg-[#f20c0c] flex justify-center gap-2  dark:bg-[#f20c0c] dark:text-white dark:hover:bg-red-700  hover:opacity-80 cursor-pointer",
         cancel:
-          "bg-gray-300 text-gray-700 dark:bg-[#f5f5fa]dark:text-dark hover:bg-gray-400 dark:hover:bg-gray-300 hover:opacity-80  cursor-pointer",
+          "bg-gray-300 flex  justify-center  gap-2  text-gray-700 dark:bg-[#f5f5fa]dark:text-dark hover:bg-gray-400 dark:hover:bg-gray-300 hover:opacity-80  cursor-pointer",
         outline:
-          "border border-indigo-400 hover:text-white bg-transparent text-black hover:border-transparent hover:bg-indigo-600 dark:text-gray-700 dark:hover:text-white",
+          "border flex gap-2 justify-center border-indigo-400 hover:text-white bg-transparent text-black hover:border-transparent hover:bg-indigo-600 dark:text-gray-700 dark:hover:text-white",
       },
       size: {
         default: "p-3",
@@ -57,6 +57,8 @@ const Button = ({
       className={cn(buttonVariants({ variant, size, fullWidth, className }))}
       {...props}
     >
+            {children}
+
       {isloading ? (
         <svg
           className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
@@ -79,7 +81,6 @@ const Button = ({
           ></path>
         </svg>
       ) : null}
-      {children}
     </button>
   );
 };

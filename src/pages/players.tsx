@@ -31,9 +31,10 @@ interface IFormInput {
   mobile: string;
   picture?: FileList;
   dateOfBirth?: string;
-  card_Number?: string;
+  card_Number: string;
   category?: IOption;
   coach?: string;
+  
 }
 
 const Players = () => {

@@ -57,7 +57,7 @@ const Players = () => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
-    formData.append("card_Number", data.mobile); 
+    formData.append("card_Number", data.card_Number); 
     if (data.picture) {
       console.log(data.picture[0])
       formData.append("file", data.picture[0]); 

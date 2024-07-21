@@ -19,6 +19,7 @@ interface IFormInput {
   mobile?: string;
   category?: IOption;
   coach?: string;
+  card_Number:string
 }
 
 interface IOption {
@@ -66,6 +67,7 @@ const PlayerDetails = () => {
     setValue("mobile", player.mobile);
     setValue("category", player.category);
     setValue("coach", player.coach);
+    setValue('card_Number' , player.card_Number)
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {
@@ -157,6 +159,25 @@ const PlayerDetails = () => {
               {...register("mobile")}
               id="editplayerphone"
               placeholder="رقم الهاتف"
+              type="text"
+            />
+          </div>
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="card_Number">رقم الهويه :</label>
+            <Input
+              {...register("card_Number")}
+              id="card_Number"
+              placeholder="رقم الهويه"
+              type="text"
+            />
+          </div>
+
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="nationality">الجنسيه:</label>
+            <Input
+              {...register("nationality")}
+              id="nationality"
+              placeholder="الجنسيه "
               type="text"
             />
           </div>

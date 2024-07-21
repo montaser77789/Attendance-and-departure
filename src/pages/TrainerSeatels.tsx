@@ -18,7 +18,6 @@ interface IFormInput {
   category?: string;
   coach?: string;
 }
-
 const TrainerDetails = () => {
   const params = useParams();
   const trainerId = params.trainerId;

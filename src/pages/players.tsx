@@ -41,12 +41,10 @@ const Players = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);
-
   const { data: players, refetch , isLoading  } = useGetPlayersQuery({});
   const [createPlayer, { isLoading: isCreating , reset:resetCreateApi }] = useCreatePlayerMutation();
   const [deletePlayer, { isLoading: isDeleting } ] = useDeletePlayerMutation();
   console.log(players)
-
   const filteredPlayers = players?.filter((player: Player) =>
     player.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -158,11 +156,11 @@ const Players = () => {
           ))}
         </div>
       ) : (
-        <p className="text-center text-gray-700">لا يوجد لاعبين حتى الآن</p>
+        <p className="text-center text-gray-700">لا يوجد لاعبين حتى الآن من فضلك اضف لاعب جديد .</p>
       )}
     </div>
 
-     
+    
 <Modal title="اضافه لاعب جديد" isopen={isOpen} closeModal={() => setIsOpen(false)}>
         <form onSubmit={handleSubmit(handleSubmitCreate)} dir="rtl">
           <div className="mb-2 space-y-1 text-right">

@@ -17,11 +17,12 @@ interface IOption {
 
 const categoryOptions: IOption[] = [
   { value: "فريق اول", label: "فريق اول" },
-  { value: "اولمبيا", label: "اولمبيا" },
+  { value: "اولمبي", label: "اولمبي" },
   { value: "شباب", label: "شباب" },
-  { value: "ناشئين", label: "ناشئين" },
-  { value: "اشبال", label: "اشبال" },
   { value: "براعم", label: "براعم" },
+  { value: "ناشئين", label: "ناشئين" },
+  { value: "ناشئين", label: "ناشئين" },
+
 ];
 
 interface IFormInput {

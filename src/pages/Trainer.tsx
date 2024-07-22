@@ -4,25 +4,12 @@ import Button from "../components/ui/Button";
 import { NavLink } from "react-router-dom";
 import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
-import { useForm, SubmitHandler, Controller } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import { useCreateTrainerMutation, useDeleteTrainerMutation, useGetTrainersQuery } from "../app/Api/TrainerApiSlice";
-import Select from "react-select";
 import { Player } from "../interfaces";
-import { successmsg } from "../toastifiy";
+import { errormsg, successmsg } from "../toastifiy";
 
-interface Ioption {
-  value: string,
-  label: string
-}
 
-const catagoryOptions: Ioption[] = [
-  { value: "فريق اول ", label: "فريق اول" },
-  { value: "اولمبيا", label: "اولمبيا" },
-  { value: "شباب", label: "شباب" },
-  { value: "ناشئين", label: "ناشئين" },
-  { value: "اشبال", label: "اشبال" },
-  { value: "براعم", label: "براعم" },
-];
 
 interface IFormInput {
   _id?: string;
@@ -30,9 +17,7 @@ interface IFormInput {
   nationality: string;
   mobile: string;
   picture?: FileList;
-  dateOfBirth?: string;
   card_Number?: string;
-  category?: Ioption;
   coach?: string;
   email : string ;
   password : string ;
@@ -44,55 +29,64 @@ const Trainer = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDelete, setIsOpenDelete] = useState(false);
 
-  const [createTrainer] = useCreateTrainerMutation();
+  const [createTrainer ,{isLoading: isCreating}] = useCreateTrainerMutation();
   const { data: trainers , refetch , isLoading } = useGetTrainersQuery({})
   console.log(trainers);
-  const [selectedTrainerId, setSelectedTrainerId] = useState<string | null>(null);
+  const [selectedTrainerId, setSelectedTrainerId] = useState<string>("");
   const [deleteTrainer, { isLoading: isDeleting } ] = useDeleteTrainerMutation();
 
+console.log(selectedTrainerId);
 
 
   const filteredTrainers = trainers ? trainers.filter((trainer: Player) =>
     trainer.name.toLowerCase().includes(searchQuery.toLowerCase())
   ) : [];
   
-  const { register, handleSubmit, reset, control } = useForm<IFormInput>();
+  const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   const handleSubmitCreate: SubmitHandler<IFormInput> = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
     formData.append("card_Number", data.mobile); 
+
     if (data.picture) {
-      formData.append("picture", data.picture[0]);
+      formData.append("file", data.picture[0]);
     }
-    formData.append("dateOfBirth", data.dateOfBirth || "");
     formData.append("mobile", data.mobile || "");
-    formData.append("category", data.category?.value || ""); 
-    formData.append("coach", data.coach || "");
+    formData.append("email", data.email); 
+    formData.append("password", data.password); 
+
 
     createTrainer(formData)
       .unwrap()
-      .then(() => {
+      .then((response) => {
         refetch();
         setIsOpen(false);
         reset();
+        successmsg({msg:`${response.data}`})
+        
       })
       .catch((error) => {
         console.error("Failed to create player:", error);
+        errormsg({ msg: `${error.data}`})
       });
   };
   const handleDelete = () => {
     if (selectedTrainerId) {
+      console.log(selectedTrainerId);
+      
       deleteTrainer(selectedTrainerId)
         .unwrap()
-        .then(() => {
+        .then((response) => {
+          console.log(response);
+          successmsg({ msg: `${response}` });
           refetch(); 
           setIsOpenDelete(false);
-          setSelectedTrainerId(null);
-          successmsg({ msg: "تم الحذف بنجاح" })
+          setSelectedTrainerId("");
         })
         .catch((error) => {
+          errormsg({msg:`${error}`})
           console.error("Failed to delete player:", error);
         });
     }
@@ -172,10 +166,7 @@ const Trainer = () => {
             <label htmlFor="trainer">صوره المدرب:</label>
             <Input {...register("picture")} id="trainer" placeholder="صوره المدرب" type="file" />
           </div>
-          <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="trainerbirthday">تاريخ الميلاد:</label>
-            <Input {...register("dateOfBirth")} id="trainerbirthday" placeholder="تاريخ الميلاد" type="date" />
-          </div>
+        
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="trainerphone">رقم الهاتف:</label>
             <Input {...register("mobile")} id="trainerphone" placeholder="رقم الهاتف" type="text" />
@@ -184,50 +175,8 @@ const Trainer = () => {
             <label htmlFor="card_Number">رقم الهوية:</label>
             <Input {...register("card_Number")} id="card_Number" placeholder="رقم الهوية" type="text" />
           </div>
-          <div className="mb-2 space-y-1 text-right">
-            <label htmlFor="category">الفئة:</label>
-            <div className="relative">
-              <Controller
-                name="category"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    {...field}
-                    options={catagoryOptions}
-                    placeholder="اختر الفئة"
-                    className="basic-single w-full"
-                    classNamePrefix="select"
-                    styles={{
-                      menu: (provided) => ({
-                        ...provided,
-                        zIndex: 9999,
-                        maxHeight: 200,
-                      }),
-                      menuList: (provided) => ({
-                        ...provided,
-                        maxHeight: 200,
-                        overflowY: 'auto',
-                      }),
-                      control: (provided) => ({
-                        ...provided,
-                        minHeight: 38,
-                        borderColor: '#ddd',
-                        boxShadow: 'none',
-                        '&:hover': {
-                          borderColor: '#aaa',
-                        },
-                      }),
-                    }}
-                    onChange={(selectedOption) => field.onChange(selectedOption)}
-                  />
-                )}
-              />
-            </div>
-          </div>
-          <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="trainercoach">المدرب:</label>
-            <Input {...register("coach")} id="trainercoach" placeholder="المدرب" type="text" />
-          </div>
+        
+      
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="player">الجنسية:</label>
             <Input {...register("nationality")} id="player" placeholder="الجنسية" type="text" />
@@ -243,7 +192,7 @@ const Trainer = () => {
           <div className="flex justify-end gap-4">
 
           <Button variant={"danger"} type="button" onClick={() => setIsOpen(false)}>الغاء</Button>
-          <Button type="submit">حفظ</Button>
+          <Button isloading={isCreating} type="submit">حفظ</Button>
           </div>
         </form>
       </Modal>

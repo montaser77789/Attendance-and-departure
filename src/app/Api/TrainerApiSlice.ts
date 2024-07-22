@@ -27,16 +27,33 @@ export const TrainerApiSlice = createApi({
     }),
 
     createTrainer: builder.mutation({
-      query: (body) => ({
+      query: (formData) => ({
         url: '/app/user/create_coach',
         method: 'POST',
-        body,
+        responseHandler: (response) => response.text(), 
+        body: formData ,
+        headers: {
+          Authorization: token
+        },
       }),
+    }),
+
+    updateTrainer: builder.mutation({
+      query: ({ id, formData }) => ({
+        url: `/app/user/edit_coach/${id}`,
+        method: 'PUT',
+        body: formData,
+        responseHandler: (response) => response.text(), 
+        headers: {
+          Authorization: token,
+        },
+      }),
+      invalidatesTags: ['Trainers'],
     }),
 
     deleteTrainer: builder.mutation({
       query: (id) => ({
-        url: `/app/user/delete_player/${id}`,
+        url: `/app/user/admin/delete_coach/${id}`,
         method: 'DELETE',
         responseHandler: (response) => response.text(), 
 
@@ -44,9 +61,9 @@ export const TrainerApiSlice = createApi({
           Authorization: token
         },
       }),
-      invalidatesTags: ['Trainers'], // Invalidate the cache to trigger a refetch
+      invalidatesTags: ['Trainers'], 
     }),
   }),
 });
 
-export const { useGetTrainersQuery, useGetTrainerByIdQuery, useDeleteTrainerMutation , useCreateTrainerMutation } = TrainerApiSlice;
+export const { useGetTrainersQuery, useUpdateTrainerMutation , useGetTrainerByIdQuery, useDeleteTrainerMutation , useCreateTrainerMutation } = TrainerApiSlice;

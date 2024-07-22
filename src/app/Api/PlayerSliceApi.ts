@@ -41,13 +41,18 @@ export const playersApiSlice = createApi({
 
     }),
     updatePlayer: builder.mutation({
-      query: ({ id, ...player }) => ({
+      query: ({ id, formData }) => ({
         url: `/app/user/edit_player/${id}`,
         method: 'PUT',
-        body: player,
+        body: formData,
+        responseHandler: (response) => response.text(), 
+        headers: {
+          Authorization: token, // Ensure token is properly managed
+        },
       }),
-      invalidatesTags: ['Player'], // Invalidate the cache to trigger a refetch
+      invalidatesTags: ['Player'],
     }),
+    
     deletePlayer: builder.mutation({
       query: (id) => ({
         url: `/app/user/delete_player/${id}`,

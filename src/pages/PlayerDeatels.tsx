@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Select, { OptionsOrGroups, GroupBase } from "react-select";
+import { errormsg, successmsg } from "../toastifiy";
 
 interface IFormInput {
   _id?: number;
@@ -17,9 +18,10 @@ interface IFormInput {
   idNumber: string;
   dateOfBirth?: string;
   mobile?: string;
-  category?: IOption;
+  category: IOption;
   coach?: string;
   card_Number:string
+  picture:  FileList  ;
 }
 
 interface IOption {
@@ -42,8 +44,8 @@ const PlayerDetails = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { register, handleSubmit, setValue, control } = useForm<IFormInput>();
   const [selectedPlayer, setSelectedPlayer] = useState<IFormInput | null>(null);
-  const [updatePlayer] = useUpdatePlayerMutation();
-  const { data } = useGetPlayersByIdQuery(playerId || "");
+  const [updatePlayer , {isLoading}] = useUpdatePlayerMutation();
+  const { data  , refetch} = useGetPlayersByIdQuery(playerId || "");
   const picture = data?.picture;
   const category = data?.category;
   const nationality = data?.nationality;
@@ -59,6 +61,7 @@ const PlayerDetails = () => {
 
   const handleEditPlayer = (player: IFormInput) => {
     setSelectedPlayer(player);
+    console.log(player);
     setIsOpenEdit(true);
     setValue("name", player.name);
     setValue("nationality", player.nationality);
@@ -71,26 +74,44 @@ const PlayerDetails = () => {
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {
-    if (selectedPlayer) {
+    console.log(data);
+    
+    
       const formData = new FormData();
       formData.append("name", data.name);
       formData.append("nationality", data.nationality);
       formData.append("idNumber", data.idNumber);
       formData.append("birthday", data.dateOfBirth || "");
-      formData.append("mobile", data.mobile || "");
-      formData.append("category", data.category?.value || "");
-      formData.append("coach", data.coach || "");
+      if (data.mobile) {
+        formData.append("mobile", data.mobile);
+      }
+          
+      if (typeof data.category === "string") {
+        formData.append("category", data.category);
+      } else if (data.category && typeof data.category.value === "string") {
+        formData.append("category", data.category.value);
+      }      formData.append("coach", data.coach || "");
 
-      updatePlayer({ id: selectedPlayer._id, formData })
+
+      if (data.picture instanceof FileList && data.picture.length > 0) {
+        const file = data.picture[0];
+        formData.append("file", file);
+        console.log("فيه صوره");
+        
+      } 
+
+      updatePlayer({ id: selectedPlayer?._id, formData })
         .unwrap()
         .then((response) => {
           console.log("Player updated:", response);
           setIsOpenEdit(false);
+          successmsg({ msg: `${response}` });
+          refetch()
         })
         .catch((error) => {
+          errormsg({msg:`${error.data}`})
           console.error("Failed to update player:", error);
         });
-    }
   };
 
   return (
@@ -142,6 +163,15 @@ const PlayerDetails = () => {
               id="editplayername"
               placeholder="اسم اللاعب"
               type="text"
+            />
+          </div>
+          <div className="mb-2 space-y-1 text-right">
+            <label htmlFor="editplayername">صورة اللاعب:</label>
+            <Input
+              {...register("picture")}
+              id="editplayername"
+              placeholder="صورة اللاعب"
+              type="file"
             />
           </div>
           <div className="mb-2 space-y-2 text-right">
@@ -232,7 +262,7 @@ const PlayerDetails = () => {
             />
           </div>
           <div className="flex gap-2 justify-end items-center">
-            <Button type="submit">حفظ التعديلات</Button>
+            <Button type="submit" isloading={isLoading}>حفظ التعديلات</Button>
             <Button variant={"danger"} onClick={() => setIsOpenEdit(false)}>
               الغاء
             </Button>

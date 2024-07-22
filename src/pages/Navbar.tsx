@@ -112,8 +112,7 @@ const NavBar = () => {
                 </button>
               </li>
             )}
-            <li className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap">
-            </li>
+        
           </ul>
         </div>
       </div>

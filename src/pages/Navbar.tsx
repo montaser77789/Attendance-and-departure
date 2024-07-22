@@ -67,12 +67,12 @@ const NavBar = () => {
                 to="/trainers"
                 className={({ isActive }) =>
                   isActive
-                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"
-                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline text-nowrap"
+                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap"
                 }
                 onClick={handleLinkClick}
               >
-                المدربين
+                الطاقم الفني والاداري
               </NavLink>
             </li>
             <li>
@@ -80,8 +80,8 @@ const NavBar = () => {
                 to="/civilizedregion"
                 className={({ isActive }) =>
                   isActive
-                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"
-                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline text-nowrap"
+                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap"
                 }
                 onClick={handleLinkClick}
               >
@@ -94,8 +94,8 @@ const NavBar = () => {
                   to="/login"
                   className={({ isActive }) =>
                     isActive
-                      ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline"
-                      : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                      ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline text-nowrap"
+                      : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap"
                   }
                   onClick={handleLinkClick}
                 >
@@ -106,13 +106,13 @@ const NavBar = () => {
               <li>
                 <button
                   onClick={handleLogout}
-                  className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white"
+                  className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap"
                 >
                   تسجيل الخروج
                 </button>
               </li>
             )}
-            <li className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white">
+            <li className="block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap">
             </li>
           </ul>
         </div>

@@ -25,6 +25,8 @@ const monthsData = [
   { id: 2, month: "فبراير", startDate: "2024-02-01", endDate: "2024-02-29" },
 ];
 
+
+
 const Cvilizedregion = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedMonth] = useState(null);

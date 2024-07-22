@@ -171,7 +171,7 @@ const data = res.data
           {! data?.Admin &&  <Button  onClick={() => setIsOpenAdmin(true)}>
              ادمن 
             </Button>}
-            { data.Admin &&  <Button  onClick={() => setIsOpenAdmin(true)}>
+            { data?.Admin &&  <Button  onClick={() => setIsOpenAdmin(true)}>
              الغاء الادمن
             </Button>}
           </div>

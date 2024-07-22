@@ -115,7 +115,7 @@ const Players = () => {
       <div>
       {isLoading ? (
         <p className="text-center text-gray-700">جاري تحميل اللاعبين...</p>
-      ) : filteredPlayers.length > 0 ? (
+      ) : filteredPlayers?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredPlayers.map((player: Player) => (
             <div

@@ -44,6 +44,6 @@ export const LoginSchema = yup
     password: yup
       .string()
       .required("password is required")
-      .min(6, "Username shouid be at least 6 characters"),
+      .min(3, "Username shouid be at least 6 characters"),
   })
   .required();

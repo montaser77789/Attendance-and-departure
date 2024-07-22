@@ -45,6 +45,8 @@ console.log(selectedTrainerId);
   const { register, handleSubmit, reset } = useForm<IFormInput>();
 
   const handleSubmitCreate: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
+    
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
@@ -110,7 +112,7 @@ console.log(selectedTrainerId);
       </div>
       <div>
       {isLoading ? (
-        <p className="text-center text-gray-700">جاري تحميل البيانات...</p>
+        <p className="text-center text-gray-700">جاري تحميل المدربين...</p>
       ) : filteredTrainers?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredTrainers.map((trainer: Player) => (

@@ -19,9 +19,11 @@ export const TrainerApiSlice = createApi({
     getTrainerById: builder.query({
       query: (id) =>({
         url: `/app/user/admin/get_coach/${id}`,
+
         headers: {
           Authorization: token
         },
+
       }),
 
     }),

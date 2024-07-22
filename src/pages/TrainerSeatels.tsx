@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useGetTrainerByIdQuery, useUpdateTrainerMutation } from "../app/Api/TrainerApiSlice";
 import { errormsg, successmsg } from "../toastifiy";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 interface IFormInput {
   _id?: number;
@@ -23,15 +25,19 @@ interface IFormInput {
 const TrainerDetails = () => {
   const params = useParams();
   const trainerId = params.trainerId;
+  const [isOpenAdmin , setIsOpenAdmin] =useState(false);
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { register, handleSubmit, setValue } = useForm<IFormInput>();
   const [selectedPlayer, setSelectedPlayer] = useState<IFormInput | null>(null);
   const [updateTrainer, { isLoading: isUpdating }] = useUpdateTrainerMutation();
-  const { data, refetch } = useGetTrainerByIdQuery(trainerId || "");
-console.log(data);
+  const res = useGetTrainerByIdQuery(trainerId || "");
+console.log(res);
 
-  // Extract existing data
-  const { picture, nationality, mobile, name, email, password, dateOfBirth, card_Number } = data || {};
+const data = res.data
+
+
+
+  const { picture, nationality, mobile, name, email, password, card_Number } = data || {};
 
   const handleGenerateReport = () => {
     alert(`تم إنشاء تقرير للمدرب ID ${trainerId}.`);
@@ -71,12 +77,63 @@ console.log(data);
       .then((response) => {
         successmsg({ msg: `${response}` });
         setIsOpenEdit(false);
-        refetch();
+        res.refetch();
       })
       .catch((error) => {
         errormsg({ msg: `${error}` });
       });
   };
+  
+
+  const handleAdmin = async () => {
+    const token = Cookies.get('access_token');
+    
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+  
+    try {
+      const response = await axios.patch(
+        `https://pro1-4zoz.onrender.com/app/user/admin/access_admin/${data?._id}`,
+        {}, // You might need to pass an empty object or actual data here
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data); // Log the response data
+      successmsg({ msg: `${response.data}` });
+      setIsOpenAdmin(false);
+    } catch (error) {
+      console.error(error); // Log any errors
+    }
+  };
+  const handleUnAdmin = async () => {
+    const token = Cookies.get('access_token');
+  
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
+  
+    try {
+      const response = await axios.patch(
+        `https://pro1-4zoz.onrender.com/app/user/admin/un_access_admin/${data?._id}`,
+        {}, // If there is no data to send in the body, use an empty object
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log(response.data); 
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
 
   return (
     <div className="container mx-auto p-4 mt-20">
@@ -90,9 +147,7 @@ console.log(data);
         </div>
         <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right">
           <h2 className="text-2xl font-bold mb-2">{name || "اسم المدرب"}</h2>
-          <p className="mb-2">
-            <strong>تاريخ الميلاد:</strong> {dateOfBirth || "غير محدد"}
-          </p>
+         
           <p className="mb-2">
             <strong>رقم الجوال:</strong> {mobile || "غير محدد"}
           </p>
@@ -113,6 +168,12 @@ console.log(data);
             <Button onClick={() => handleEditPlayer(data)}>
               تعديل التفاصيل
             </Button>
+          {! data?.Admin &&  <Button  onClick={() => setIsOpenAdmin(true)}>
+             ادمن 
+            </Button>}
+            { data.Admin &&  <Button  onClick={() => setIsOpenAdmin(true)}>
+             الغاء الادمن
+            </Button>}
           </div>
         </div>
       </div>
@@ -175,6 +236,27 @@ console.log(data);
           </div>
         </form>
       </Modal>
+    {!data?.Admin && <Modal isopen={isOpenAdmin}    closeModal={() => setIsOpenAdmin(false)} >
+      <div>
+        <h3 className="text-right">جعل هذا المدرب ادمن ؟</h3>
+        <div className="  flex  gap-2  ">
+          <Button onClick={handleAdmin} >نعم</Button>
+          <Button onClick={() => setIsOpenAdmin(false)} variant={"danger"} >لا</Button>
+
+        </div>
+      </div>
+    </Modal>}
+    {data?.Admin && <Modal isopen={isOpenAdmin}    closeModal={() => setIsOpenAdmin(false)} >
+      <div>
+        <h3 className="text-right">الغاء الادمن ؟</h3>
+        <div className="  flex  gap-2  ">
+          <Button onClick={handleUnAdmin} >نعم</Button>
+          <Button onClick={() => setIsOpenAdmin(false)} variant={"danger"} >لا</Button>
+
+        </div>
+      </div>
+    </Modal>}
+
     </div>
   );
 };

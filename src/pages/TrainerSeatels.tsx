@@ -39,7 +39,7 @@ console.log(res.data);
 
 
 
-  const { picture, nationality, mobile, name, email, password, card_Number , _id } = data || {};
+  const { picture, nationality, mobile, name, email, card_Number , _id } = data || {};
 
   const handleGenerateReport = () => {
     alert(`تم إنشاء تقرير للمدرب ID ${trainerId}.`);

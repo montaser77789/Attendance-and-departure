@@ -33,11 +33,13 @@ const TrainerDetails = () => {
   const res = useGetTrainerByIdQuery(trainerId || "");
 console.log(res);
 
-const data = res.data
+const data = res.data?.data
+console.log(res.data);
 
 
 
-  const { picture, nationality, mobile, name, email, password, card_Number } = data || {};
+
+  const { picture, nationality, mobile, name, email, password, card_Number , _id } = data || {};
 
   const handleGenerateReport = () => {
     alert(`تم إنشاء تقرير للمدرب ID ${trainerId}.`);
@@ -85,15 +87,15 @@ const data = res.data
   };
   const handleAdmin = async () => {
     const token = Cookies.get('access_token');
+    console.log(token);
+    console.log(_id)
     
-    if (!token) {
-      console.error('No token found');
-      return;
-    }
+  
   
     try {
       const response = await axios.patch(
-        `https://pro1-4zoz.onrender.com/app/user/admin/access_admin/${data?._id}`,
+        `https://pro1-4zoz.onrender.com/app/user/admin/access_admin/${_id}`,
+        {},
         {
           headers: {
             Authorization: token,
@@ -110,6 +112,8 @@ const data = res.data
   };
   const handleUnAdmin = async () => {
     const token = Cookies.get('access_token');
+    console.log(token);
+    console.log(_id)
   
     if (!token) {
       console.error('No token found');
@@ -118,13 +122,13 @@ const data = res.data
   
     try {
       const response = await axios.patch(
-        `https://pro1-4zoz.onrender.com/app/user/admin/un_access_admin/${data?._id}`,
-        {}, // If there is no data to send in the body, use an empty object
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+        `https://pro1-4zoz.onrender.com/app/user/admin/un_access_admin/${_id}`,
+        {},
+        { headers: {
+          Authorization: token,
+        },
+      }, 
+         
       );
       successmsg({ msg: `${response.data}` });
       res.refetch();
@@ -161,7 +165,7 @@ const data = res.data
             <strong>الايميل:</strong> {email || "غير محدد"}
           </p>
           <p className="mb-2">
-            <strong>كلمه السر:</strong> {password || "غير محدد"}
+            <strong>كلمه السر:</strong> {res.data?.plaintextPassword || "غير محدد"}
           </p>
           <div className="flex gap-2">
             <Button onClick={handleGenerateReport}>عمل تقرير</Button>

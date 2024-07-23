@@ -38,7 +38,7 @@ const PlayerAttendance: React.FC = () => {
         })
         .catch((error) => {
             console.error("Failed to create day:", error);
-            errormsg({ msg: `${response.message}`   });
+            errormsg({ msg: `${error.message}`   });
         });
     };
 

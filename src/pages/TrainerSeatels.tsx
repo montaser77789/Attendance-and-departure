@@ -83,8 +83,6 @@ const data = res.data
         errormsg({ msg: `${error}` });
       });
   };
-  
-
   const handleAdmin = async () => {
     const token = Cookies.get('access_token');
     
@@ -96,13 +94,13 @@ const data = res.data
     try {
       const response = await axios.patch(
         `https://pro1-4zoz.onrender.com/app/user/admin/access_admin/${data?._id}`,
-        {}, // You might need to pass an empty object or actual data here
         {
           headers: {
             Authorization: token,
           },
         }
       );
+      res.refetch();
       console.log(response.data); // Log the response data
       successmsg({ msg: `${response.data}` });
       setIsOpenAdmin(false);
@@ -128,7 +126,9 @@ const data = res.data
           },
         }
       );
-      console.log(response.data); 
+      successmsg({ msg: `${response.data}` });
+      res.refetch();
+      setIsOpenAdmin(false)
     } catch (error) {
       console.error(error);
     }

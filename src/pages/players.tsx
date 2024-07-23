@@ -35,6 +35,10 @@ interface IFormInput {
   card_Number: string;
   category?: IOption;
   coach?: string;
+  doc_start:string;
+  doc_end:  string;
+
+
   
 }
 
@@ -68,6 +72,9 @@ const Players = () => {
     formData.append("mobile", data.mobile || "");
     formData.append("category", data.category?.value || ""); 
     formData.append("coach", data.coach || "");
+    formData.append("doc_start", data.doc_start);
+    formData.append("doc_end", data.doc_end );
+
   
     createPlayer(formData)
       .unwrap()
@@ -229,10 +236,22 @@ const Players = () => {
               />
             </div>
           </div>
+
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="playercoach">المدرب:</label>
             <Input {...register("coach")} id="playercoach" placeholder="المدرب" type="text" />
           </div>
+
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="doc_start">تاريخ بدايه العقد:</label>
+            <Input {...register("doc_start")} id="doc_start" placeholder="تاريخ بدايه العقد" type="date" />
+          </div>
+
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="doc_end">تاريخ نهايه العقد:</label>
+            <Input {...register("doc_end")} id="doc_end" placeholder="تاريخ نهايه العقد" type="date" />
+          </div>
+
           <div className="flex justify-end gap-2 mt-4">
             <Button type="submit" isloading={isCreating}>حفظ</Button>
             <Button type="button" onClick={() => {

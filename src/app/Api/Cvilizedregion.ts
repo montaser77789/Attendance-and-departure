@@ -8,23 +8,58 @@ export const    CvilizedregionApi = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: "https://pro1-4zoz.onrender.com" }),
     endpoints: (builder) => ({ 
         createMonth:builder.mutation({
-            query: ()=>{
+            query: (data)=>{
                 return {
                     url: '/app/audience/create_month',
                     method: 'POST',
+                    body: data,
                     headers: {
                         Authorization: token
                     },
                 }
             }
-        })
+        }),
+
+        getManthes: builder.query({
+            query: () => {
+              return {
+                url: 'app/audience/get_all_month',
+                headers: {
+                  Authorization: token
+                },
+               
+              };
+            }
+          }),
+
+
+          createDayes: builder.mutation({
+            query: ({ id, data }) => ({
+              url: `/app/audience/create_day/${id}`,
+              method: 'POST',
+              body: data,
+              headers: {
+                Authorization: token // Ensure token is correctly formatted
+              },
+            }),
+          }),
+          
+
+       
+
+
+
     })
 
   
     
 })
 
-export const { useCreateMonthMutation} = CvilizedregionApi
+export const { useCreateMonthMutation, 
+     useGetManthesQuery , useCreateDayesMutation 
+  
+    } = CvilizedregionApi
+
 
 
 

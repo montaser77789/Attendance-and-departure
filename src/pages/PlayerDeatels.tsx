@@ -22,6 +22,8 @@ interface IFormInput {
   coach?: string;
   card_Number:string
   picture:  FileList  ;
+  doc_start:string;
+  doc_end:  string;
 }
 
 interface IOption {
@@ -46,6 +48,7 @@ const PlayerDetails = () => {
   const [selectedPlayer, setSelectedPlayer] = useState<IFormInput | null>(null);
   const [updatePlayer , {isLoading}] = useUpdatePlayerMutation();
   const { data  , refetch} = useGetPlayersByIdQuery(playerId || "");
+  console.log(data)
   const picture = data?.picture;
   const category = data?.category;
   const nationality = data?.nationality;
@@ -54,6 +57,9 @@ const PlayerDetails = () => {
   const coach = data?.coach;
   const dateOfBirth = data?.dateOfBirth;
   const card_Number = data?.card_Number;
+  const doc_start = data?.doc_start;
+  const doc_end = data?.doc_end;
+
 
   const handleGenerateReport = () => {
     alert(`Report for player ID ${playerId} generated.`);
@@ -71,6 +77,9 @@ const PlayerDetails = () => {
     setValue("category", player.category);
     setValue("coach", player.coach);
     setValue('card_Number' , player.card_Number)
+    setValue('doc_start' , player.doc_start)
+    setValue('doc_end' , player.doc_end)
+
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {
@@ -82,6 +91,8 @@ const PlayerDetails = () => {
       formData.append("nationality", data.nationality);
       formData.append("idNumber", data.idNumber);
       formData.append("birthday", data.dateOfBirth || "");
+      formData.append("doc_start", data.doc_start);
+      formData.append("doc_end", data.doc_end );
       if (data.mobile) {
         formData.append("mobile", data.mobile);
       }
@@ -143,6 +154,12 @@ const PlayerDetails = () => {
           </p>
           <p className="mb-2">
             <strong>المدرب المسئول:</strong> {coach || "غير محدد"}
+          </p>
+          <p className="mb-2">
+            <strong>تاريخ بدايه العقد:</strong> {doc_start || "غير محدد"}
+          </p>
+          <p className="mb-2">
+            <strong>تاريخ نهايه العقد:</strong> {doc_end || "غير محدد"}
           </p>
           <div className="flex gap-2 text-center justify-center mt-2">
             <Button onClick={handleGenerateReport}>عمل تقرير</Button>
@@ -261,6 +278,18 @@ const PlayerDetails = () => {
               type="text"
             />
           </div>
+
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="doc_start">تاريخ بدايه العقد:</label>
+            <Input {...register("doc_start")} id="doc_start" placeholder="تاريخ بدايه العقد" type="date" />
+          </div>
+
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="doc_end">تاريخ نهايه العقد:</label>
+            <Input {...register("doc_end")} id="doc_end" placeholder="تاريخ نهايه العقد" type="date" />
+          </div>
+
+
           <div className="flex gap-2 justify-end items-center">
             <Button type="submit" isloading={isLoading}>حفظ التعديلات</Button>
             <Button variant={"danger"} onClick={() => setIsOpenEdit(false)}>

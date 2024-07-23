@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetPlayersQuery } from '../app/Api/PlayerSliceApi';
 import { RootState } from '../app/store';
-import { toggleAttendance } from '../app/playerAttendance';
+import { toggleAttendance, clearAttendance } from '../app/playerAttendance';
 import { usePlyerAttendanceMutation } from '../app/Api/Cvilizedregion';
 import Button from '../components/ui/Button';
 import { errormsg, successmsg } from '../toastifiy';
@@ -34,17 +34,18 @@ const PlayerAttendance: React.FC = () => {
         .unwrap()
         .then((response) => {
             successmsg({ msg: `${response.message}` });
-            console.log(response)
+            dispatch(clearAttendance()); 
         })
         .catch((error) => {
             console.error("Failed to create day:", error);
-            errormsg({ msg: `${error.message}`   });
+            errormsg({ msg: `${error?.data?.message}`  });
+            dispatch(clearAttendance()); 
+
         });
     };
 
-
     return (
-        <div dir="rtl" className="mt-20">
+        <div dir="rtl" className="mt-20  p-4">
             {isLoading ? (
                 <p>جاري التحميل...</p>
             ) : data?.length === 0 ? (
@@ -76,8 +77,8 @@ const PlayerAttendance: React.FC = () => {
                     </tbody>
                 </table>
             )}
-            <div>
-                <Button type="submit" onClick={handleSubmit} isloading={isSubmitting}>
+            <div className='flex justify-end mt-2'>
+            <Button type="submit" onClick={handleSubmit} isloading={isSubmitting}>
                     {isSubmitting ? 'جاري التسجيل...' : 'تسجيل الحضور'}
                 </Button>
             </div>

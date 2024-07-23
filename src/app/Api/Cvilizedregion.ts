@@ -55,6 +55,56 @@ export const    CvilizedregionApi = createApi({
               },
             }),
           }),
+
+          TrainerAttendance: builder.mutation({
+            query: ({ dayId , monthId, coach_ids }) => ({
+              url: `/app/audience/admin/audience_for_coach/${monthId}/${dayId}`,
+              method: 'POST',
+              body: {
+                coach_ids: coach_ids
+              },
+              headers: {
+                Authorization: token 
+              },
+            }),
+          }),
+
+          getAudience: builder.query({
+            query: ({ dayId , monthId }) => {
+              return {
+                url: `/app/audience/get_audience/${monthId}/${dayId}`,
+                headers: {
+                  Authorization: token
+                },
+               
+              };
+            }
+          }),
+
+          deleteDaye: builder.mutation({
+            query: ({ dayId , monthId }) => ({
+              url: `/app/audience/delete_day/${monthId}/${dayId}`,
+              method: 'DELETE',
+              responseHandler: (response) => response.text(), 
+      
+              headers: {
+                Authorization: token
+              },
+            }),
+          }),
+          
+
+          deleteMonth: builder.mutation({
+            query: ({  monthId }) => ({
+              url: `app/audience/delete_month/${monthId}`,
+              method: 'DELETE',
+              responseHandler: (response) => response.text(), 
+      
+              headers: {
+                Authorization: token
+              },
+            }),
+          }),
           
 
        
@@ -68,7 +118,8 @@ export const    CvilizedregionApi = createApi({
 })
 
 export const { useCreateMonthMutation, 
-     useGetManthesQuery , useCreateDayesMutation , usePlyerAttendanceMutation
+     useGetManthesQuery , useCreateDayesMutation , usePlyerAttendanceMutation ,useTrainerAttendanceMutation,
+     useGetAudienceQuery, useDeleteDayeMutation ,useDeleteMonthMutation
   
     } = CvilizedregionApi
 

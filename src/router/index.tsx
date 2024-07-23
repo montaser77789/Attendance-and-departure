@@ -11,7 +11,7 @@ import Cookies from "js-cookie";
 import TrainerDeatels from "../pages/TrainerSeatels";
 import PlayerAttendance from "../pages/PlayerAttendance";
 import TrainerAttendance from "../pages/TrainerAttendance";
-import Reports from "../pages/Reports";
+import Reports from "../pages/Audience";
 
 const token = Cookies.get("access_token");
 const isAuthenticated = !!token;

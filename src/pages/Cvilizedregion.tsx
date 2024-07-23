@@ -6,10 +6,12 @@ import Input from "../components/ui/Input";
 import Select, { SingleValue } from "react-select";
 import {
   useCreateMonthMutation,
+  useDeleteMonthMutation,
   useGetManthesQuery,
 } from "../app/Api/Cvilizedregion";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { successmsg } from "../toastifiy";
+import { BsTrash } from "react-icons/bs";
 
 interface IOption {
   value: string;
@@ -48,8 +50,13 @@ const Cvilizedregion = () => {
   const [createMonth, { isLoading: isLoadingCreate }] = useCreateMonthMutation(
     {}
   );
-  const { data , isLoading:isLoadingGet } = useGetManthesQuery({});
+  const { data , isLoading:isLoadingGet  , refetch} = useGetManthesQuery({});
+  const [deleteMonth , {isLoading:isDeleting}]  = useDeleteMonthMutation({})
   console.log(data);
+  const [isOpenDelete, setIsOpenDelete ] = useState(false);
+  const [idDay , setIdDay] = useState("")
+
+
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -70,6 +77,7 @@ const Cvilizedregion = () => {
           setIsOpen(false);
           console.log(response);
           reset();
+          refetch();
           successmsg({ msg: "تم اضافه الشهر بنجاح !" });
         })
         .catch((error) => {
@@ -78,9 +86,29 @@ const Cvilizedregion = () => {
     }
   };
 
+  const handleDelete = () => {
+
+    deleteMonth({ monthId: idDay })
+    .unwrap()
+    .then((response) => {
+      setIsOpenDelete(false)
+
+      console.log('Response:', response);
+      refetch()
+      successmsg({ msg:`${response}` });
+    })
+    .catch((error) => {
+      console.error("Failed to create day:", error);
+      setIsOpenDelete(false)
+
+    });
+ 
+  };
+
   return (
     <div className="mt-20 container p-4" dir="rtl">
-      <div>
+        <div className="flex justify-between items-center mb-2">
+        <h2 className="text-3xl font-bold">الشهور</h2>
         <Button onClick={() => setIsOpen(true)}>اضافه شهر جديد</Button>
       </div>
 
@@ -179,7 +207,7 @@ const Cvilizedregion = () => {
       {isLoadingGet ? (
         <p>جاري التحميل...</p>
       ) : data?.length === 0 ? (
-        <p>لا توجد بيانات لعرضها.</p>
+        <p>لا يوجد شهور حتي الان  .</p>
       ) : (
         <table className="w-full border-collapse border border-gray-200">
           <thead>
@@ -189,25 +217,50 @@ const Cvilizedregion = () => {
               <th className="border border-gray-300 p-2">النهاية</th>
               <th className="border border-gray-300 p-2">ملاحظة</th>
               <th className="border border-gray-300 p-2">الأيام</th>
+              <th className="border border-gray-300 p-2">حذف الشهر</th>
+
             </tr>
           </thead>
           <tbody>
             {data?.map((month: IMonth) => (
               <tr key={month._id}>
-                <td className="border border-gray-300 p-2">{month?.month}</td>
-                <td className="border border-gray-300 p-2">{month.start}</td>
-                <td className="border border-gray-300 p-2">{month.end}</td>
-                <td className="border border-gray-300 p-2">{month.note}</td>
-                <td className="border border-gray-300 p-2">
+                <td className="border border-gray-300 p-2 ">{month?.month}</td>
+                <td className="border border-gray-300 p-2 ">{month.start}</td>
+                <td className="border border-gray-300 p-2 ">{month.end}</td>
+                <td className="border border-gray-300 p-2 ">{month.note}</td>
+                <td className="border border-gray-300 p-2  flex gap-1">
                   <Link to={`/days/${month._id}`}>
                     <Button size="sm">عرض الأيام</Button>
                   </Link>
+                 
                 </td>
+                <td className="border border-gray-300 p-2 ">
+                <Button
+                      onClick={() => {
+                        setIsOpenDelete(true);
+                        setIdDay(month._id);}}
+                      size="sm"
+                      variant="danger"
+                    >
+                      <BsTrash size={17} />
+                    </Button>
+                  </td>
+
               </tr>
             ))}
           </tbody>
         </table>
       )}
+         <Modal title="تأكيد الحذف" isopen={isOpenDelete} closeModal={() => setIsOpenDelete(false)}>
+        <p className="text-right">حذف هذا الشهر ؟</p>
+        <div className="flex justify-start gap-2 mt-4">
+          <Button  type="submit" isloading={isDeleting} onClick={handleDelete} variant="danger">حذف</Button>
+          <Button type="button" onClick={() =>{
+            setIsOpenDelete(false)
+      } 
+          }>إلغاء</Button>
+        </div>
+      </Modal>
     </div>
   );
 };

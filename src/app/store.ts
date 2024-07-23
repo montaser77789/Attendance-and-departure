@@ -4,10 +4,12 @@ import { playersApiSlice } from "./Api/PlayerSliceApi";
 import { TrainerApiSlice } from "./Api/TrainerApiSlice";
 import { CvilizedregionApi } from "./Api/Cvilizedregion";
 import playerAttendanceSlice from "./playerAttendance";
+import TrainerAttendanceSlice from "./TrainerAttendance";
 
 export const store = configureStore({
   reducer: {
     playerAttendance: playerAttendanceSlice,
+    trainerAttendance:TrainerAttendanceSlice,
     auth: loginReducer, 
     [playersApiSlice.reducerPath]: playersApiSlice.reducer,
     [TrainerApiSlice.reducerPath]: TrainerApiSlice.reducer,

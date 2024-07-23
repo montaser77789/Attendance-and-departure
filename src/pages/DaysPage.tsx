@@ -5,11 +5,13 @@ import Modal from "../components/ui/Modal";
 import Button from "../components/ui/Button";
 import {
   useCreateDayesMutation,
+  useDeleteDayeMutation,
   useGetManthesQuery,
 } from "../app/Api/Cvilizedregion";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Select, { SingleValue } from "react-select";
 import { successmsg } from "../toastifiy";
+import { BsTrash } from "react-icons/bs";
 
 interface IOption {
   value: string;
@@ -47,8 +49,12 @@ const DaysPage = () => {
   console.log(monthId);
   const [createDaye , {isLoading}] = useCreateDayesMutation({});
   const { data , refetch , isLoading : isLoadingGet } = useGetManthesQuery({});
+  const [deleteDaye , {isLoading : isDeleting}] = useDeleteDayeMutation({})
   console.log(data?.days);
   const [isOpen, setIsOpen] = useState(false);
+  const [isOpenDelete, setIsOpenDelete ] = useState(false);
+  const [idDay , setIdDay] = useState("")
+
   const { register, handleSubmit, control, reset } = useForm<IFormInput>();
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     const formattedData = {
@@ -73,14 +79,36 @@ const DaysPage = () => {
   };
   
   const monthData = data?.find((month: IMonth) => month._id === monthId);
-  console.log(monthData);
+
+  const handleDelete = () => {
+
+    deleteDaye({dayId:idDay , monthId:monthId})
+    .unwrap()
+    .then((response) => {
+      setIsOpenDelete(false)
+
+      console.log('Response:', response);
+      refetch()
+      successmsg({ msg:`${response}` });
+    })
+    .catch((error) => {
+      console.error("Failed to create day:", error);
+      setIsOpenDelete(false)
+
+    });
+ 
+  };
+
   
 
   return (
     <div className="mt-20 container p-4" dir="rtl">
-      <h1 className="text-2xl font-bold mb-4">أيام الشهر</h1>
       <div className="mb-4">
+        <div className="flex justify-between items-center">
+
+      <h2 className="text-2xl font-bold mb-4">أيام الشهر</h2>
         <Button onClick={() => setIsOpen(true)}>اضافه يوم جديد</Button>
+        </div>
         <Modal
           title="اضافه يوم جديد"
           isopen={isOpen}
@@ -153,7 +181,6 @@ const DaysPage = () => {
         <p>لا توجد بيانات لعرضها.</p>
       ) : (
         <div>
-          <h2 className="text-xl font-bold mb-4">الأيام</h2>
           {monthData ? (
             <table className="w-full border-collapse border border-gray-200">
               <thead>
@@ -170,7 +197,7 @@ const DaysPage = () => {
                       <td className="border border-gray-300 p-2">{day.day}</td>
                       <td className="border border-gray-300 p-2">{day.date}</td>
                       <td className="border border-gray-300 p-2">
-                        <div className="flex gap-1">
+                        <div className="flex justify-center gap-3">
                         <NavLink to={`/dayes/${day._id}/${monthId}`} >
                         <Button >تسجيل حضور اللاعبين</Button>
                         </NavLink>
@@ -182,6 +209,17 @@ const DaysPage = () => {
                         <NavLink to={`/Reports/${day._id}/${monthId}`}>
                         <Button >الكشوفات</Button>
                         </NavLink>
+
+                        <Button
+                      onClick={() => {
+                        setIsOpenDelete(true);
+                        setIdDay(day._id);}}
+                      size="sm"
+                      variant="danger"
+                    >
+                      <BsTrash size={17} />
+                    </Button>
+
 
 
                         </div>
@@ -202,6 +240,17 @@ const DaysPage = () => {
           )}
         </div>
       )}
+      
+      <Modal title="تأكيد الحذف" isopen={isOpenDelete} closeModal={() => setIsOpenDelete(false)}>
+        <p className="text-right">حذف هذا اليوم ؟</p>
+        <div className="flex justify-start gap-2 mt-4">
+          <Button  type="submit" isloading={isDeleting} onClick={handleDelete} variant="danger">حذف</Button>
+          <Button type="button" onClick={() =>{
+            setIsOpenDelete(false)
+      } 
+          }>إلغاء</Button>
+        </div>
+      </Modal>
     </div>
   );
 };

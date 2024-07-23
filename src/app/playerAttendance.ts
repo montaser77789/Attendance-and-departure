@@ -1,6 +1,7 @@
+// playerAttendance.ts
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-interface AttendanceState {
+export interface AttendanceState {
   playerAttendance: { [playerId: string]: boolean };
   playerIds: string[];
 }
@@ -23,8 +24,12 @@ const playerAttendanceSlice = createSlice({
         state.playerIds = state.playerIds.filter(id => id !== playerId);
       }
     },
+    clearAttendance: (state) => {
+      state.playerAttendance = {};
+      state.playerIds = [];
+    },
   },
 });
 
-export const { toggleAttendance } = playerAttendanceSlice.actions;
+export const { toggleAttendance, clearAttendance } = playerAttendanceSlice.actions;
 export default playerAttendanceSlice.reducer;

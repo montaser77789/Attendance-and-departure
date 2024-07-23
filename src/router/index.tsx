@@ -9,6 +9,9 @@ import Cvilizedregion from "../pages/Cvilizedregion";
 import DaysPage from "../pages/DaysPage";
 import Cookies from "js-cookie";
 import TrainerDeatels from "../pages/TrainerSeatels";
+import PlayerAttendance from "../pages/PlayerAttendance";
+import TrainerAttendance from "../pages/TrainerAttendance";
+import Reports from "../pages/Reports";
 
 const token = Cookies.get("access_token");
 const isAuthenticated = !!token;
@@ -76,6 +79,31 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login" >
             <DaysPage />
+          </ProtectedRoute>
+        }
+      />
+
+<Route
+        path="dayes/:dayId/:monthId"
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
+            <PlayerAttendance />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="attendance/:dayId/:monthId"
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
+            <TrainerAttendance />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="Reports/:dayId/:monthId"
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
+            <Reports />
           </ProtectedRoute>
         }
       />

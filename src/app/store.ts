@@ -1,14 +1,14 @@
-// src/app/store.ts
-
-import { configureStore } from '@reduxjs/toolkit';
-import loginReducer from './Api/Login'; // Ensure the path is correct
-import { playersApiSlice } from './Api/PlayerSliceApi';
-import { TrainerApiSlice } from './Api/TrainerApiSlice';
-import { CvilizedregionApi } from './Api/Cvilizedregion';
+import { configureStore } from "@reduxjs/toolkit";
+import loginReducer from "./Api/Login"; // Ensure the path is correct
+import { playersApiSlice } from "./Api/PlayerSliceApi";
+import { TrainerApiSlice } from "./Api/TrainerApiSlice";
+import { CvilizedregionApi } from "./Api/Cvilizedregion";
+import playerAttendanceSlice from "./playerAttendance";
 
 export const store = configureStore({
   reducer: {
-    auth: loginReducer, // Ensure that loginReducer is imported correctly
+    playerAttendance: playerAttendanceSlice,
+    auth: loginReducer, 
     [playersApiSlice.reducerPath]: playersApiSlice.reducer,
     [TrainerApiSlice.reducerPath]: TrainerApiSlice.reducer,
     [CvilizedregionApi.reducerPath]: CvilizedregionApi.reducer,
@@ -16,10 +16,11 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
-    }).concat([playersApiSlice.middleware ,
-      TrainerApiSlice.middleware ,
-      CvilizedregionApi.middleware]),
-  
+    }).concat([
+      playersApiSlice.middleware,
+      TrainerApiSlice.middleware,
+      CvilizedregionApi.middleware,
+    ]),
 });
 
 export type RootState = ReturnType<typeof store.getState>;

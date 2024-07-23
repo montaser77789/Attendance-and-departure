@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import Input from "../components/ui/Input";
 import { useState } from "react";
 import Modal from "../components/ui/Modal";
@@ -171,8 +171,17 @@ const DaysPage = () => {
                       <td className="border border-gray-300 p-2">{day.date}</td>
                       <td className="border border-gray-300 p-2">
                         <div className="flex gap-1">
-                        <Button >كشف اللاعبين</Button>
-                        <Button >كشف المدربين</Button>
+                        <NavLink to={`/dayes/${day._id}/${monthId}`} >
+                        <Button >تسجيل حضور اللاعبين</Button>
+                        </NavLink>
+
+                        <NavLink to={`/attendance/${day._id}/${monthId}`}>
+                        <Button >تسجيل حضور المدربين</Button>
+                        </NavLink>
+
+                        <NavLink to={`/Reports/${day._id}/${monthId}`}>
+                        <Button >الكشوفات</Button>
+                        </NavLink>
 
 
                         </div>

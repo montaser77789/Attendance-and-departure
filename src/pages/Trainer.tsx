@@ -131,7 +131,7 @@ console.log(selectedTrainerId);
                   الجنسية: <span className="text-gray-500"> {trainer.nationality}</span>
                 </p>
                 <p className="text-gray-700 mb-4 text-xl">
-                  رقم الهوية: <span className="text-gray-500"> {trainer.idNumber}</span>
+                  رقم الهوية: <span className="text-gray-500"> {trainer.card_Number}</span>
                 </p>
                 <div className="flex justify-between items-center mt-auto">
                   <NavLink to={`/trainers/${trainer._id}`}>

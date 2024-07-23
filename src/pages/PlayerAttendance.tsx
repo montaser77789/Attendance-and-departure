@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useGetPlayersQuery } from '../app/Api/PlayerSliceApi';
 import { RootState } from '../app/store';
-import { toggleAttendance, clearAttendance } from '../app/playerAttendance';
+import { toggleAttendance, clearAttendance, setNotSelectedPlayerIds } from '../app/playerAttendance';
 import { usePlyerAttendanceMutation } from '../app/Api/Cvilizedregion';
 import Button from '../components/ui/Button';
 import { errormsg, successmsg } from '../toastifiy';
@@ -26,26 +26,31 @@ const PlayerAttendance: React.FC = () => {
     };
 
     const handleSubmit = () => {
+        // تحديد المعرّفات غير المحددة
+        const allPlayerIds = data?.map((player: IPlayer) => player._id) || [];
+        const notSelectedIds = allPlayerIds.filter((id: string) => !playerAttendance[id]);
+        dispatch(setNotSelectedPlayerIds({ playerIds: notSelectedIds }));
+
         plyerAttendance({
             dayId: dayId || '',
             monthId: monthId || '',
             player_ids: [...playerIds],
+            not_selected_player_ids: notSelectedIds,
         })
         .unwrap()
         .then((response) => {
             successmsg({ msg: `${response.message}` });
-            dispatch(clearAttendance()); 
+            dispatch(clearAttendance());
         })
         .catch((error) => {
             console.error("Failed to create day:", error);
-            errormsg({ msg: `${error?.data?.message}`  });
-            dispatch(clearAttendance()); 
-
+            errormsg({ msg: `${error?.data?.message}` });
+            dispatch(clearAttendance());
         });
     };
 
     return (
-        <div dir="rtl" className="mt-20  p-4">
+        <div dir="rtl" className="mt-20 p-4">
             {isLoading ? (
                 <p>جاري التحميل...</p>
             ) : data?.length === 0 ? (
@@ -78,7 +83,7 @@ const PlayerAttendance: React.FC = () => {
                 </table>
             )}
             <div className='flex justify-end mt-2'>
-            <Button type="submit" onClick={handleSubmit} isloading={isSubmitting}>
+                <Button type="submit" onClick={handleSubmit} isloading={isSubmitting}>
                     {isSubmitting ? 'جاري التسجيل...' : 'تسجيل الحضور'}
                 </Button>
             </div>

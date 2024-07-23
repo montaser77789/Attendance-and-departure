@@ -65,6 +65,20 @@ export const playersApiSlice = createApi({
       }),
       invalidatesTags: ['Player'], // Invalidate the cache to trigger a refetch
     }),
+    getReports: builder.query({
+      query: (id) => {
+        return {
+          url: `/app/audience/get_report_player/${id}`,
+          headers: {
+            Authorization: token
+          },
+         
+        };
+      }
+    }),
+
+
+
   }),
 });
 
@@ -74,4 +88,5 @@ export const {
   useCreatePlayerMutation,
   useUpdatePlayerMutation,
   useDeletePlayerMutation,
+  useGetReportsQuery
 } = playersApiSlice;

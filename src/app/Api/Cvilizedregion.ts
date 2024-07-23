@@ -44,11 +44,13 @@ export const    CvilizedregionApi = createApi({
             }),
           }),
           PlyerAttendance: builder.mutation({
-            query: ({ dayId , monthId, player_ids }) => ({
+            query: ({ dayId , monthId, player_ids , not_selected_player_ids}) => ({
               url: `/app/audience/audience_for_players/${monthId}/${dayId}`,
               method: 'POST',
               body: {
-                player_ids: player_ids
+                player_ids: player_ids,
+                not_selected_player_ids: not_selected_player_ids
+
               },
               headers: {
                 Authorization: token // Ensure token is correctly formatted

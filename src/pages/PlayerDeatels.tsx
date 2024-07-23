@@ -4,6 +4,7 @@ import Modal from "../components/ui/Modal";
 import Input from "../components/ui/Input";
 import {
   useGetPlayersByIdQuery,
+  useGetReportsQuery,
   useUpdatePlayerMutation,
 } from "../app/Api/PlayerSliceApi";
 import { useState } from "react";
@@ -49,6 +50,9 @@ const PlayerDetails = () => {
   const [updatePlayer , {isLoading}] = useUpdatePlayerMutation();
   const { data  , refetch} = useGetPlayersByIdQuery(playerId || "");
   console.log(data)
+  const id = data?._id;
+
+
   const picture = data?.picture;
   const category = data?.category;
   const nationality = data?.nationality;
@@ -59,10 +63,14 @@ const PlayerDetails = () => {
   const card_Number = data?.card_Number;
   const doc_start = data?.doc_start;
   const doc_end = data?.doc_end;
+  const res = useGetReportsQuery(id || "")
+
+  console.log(res);
+  
 
 
   const handleGenerateReport = () => {
-    alert(`Report for player ID ${playerId} generated.`);
+   
   };
 
   const handleEditPlayer = (player: IFormInput) => {
@@ -79,7 +87,6 @@ const PlayerDetails = () => {
     setValue('card_Number' , player.card_Number)
     setValue('doc_start' , player.doc_start)
     setValue('doc_end' , player.doc_end)
-
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {
@@ -102,8 +109,6 @@ const PlayerDetails = () => {
       } else if (data.category && typeof data.category.value === "string") {
         formData.append("category", data.category.value);
       }      formData.append("coach", data.coach || "");
-
-
       if (data.picture instanceof FileList && data.picture.length > 0) {
         const file = data.picture[0];
         formData.append("file", file);

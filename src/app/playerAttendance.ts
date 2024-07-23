@@ -4,11 +4,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface AttendanceState {
   playerAttendance: { [playerId: string]: boolean };
   playerIds: string[];
+  notSelectedPlayerIds: string[];
 }
 
 const initialState: AttendanceState = {
   playerAttendance: {},
   playerIds: [],
+  notSelectedPlayerIds: [],
 };
 
 const playerAttendanceSlice = createSlice({
@@ -27,9 +29,13 @@ const playerAttendanceSlice = createSlice({
     clearAttendance: (state) => {
       state.playerAttendance = {};
       state.playerIds = [];
+      state.notSelectedPlayerIds = [];
+    },
+    setNotSelectedPlayerIds: (state, action: PayloadAction<{ playerIds: string[] }>) => {
+      state.notSelectedPlayerIds = action.payload.playerIds;
     },
   },
 });
 
-export const { toggleAttendance, clearAttendance } = playerAttendanceSlice.actions;
+export const { toggleAttendance, clearAttendance, setNotSelectedPlayerIds } = playerAttendanceSlice.actions;
 export default playerAttendanceSlice.reducer;

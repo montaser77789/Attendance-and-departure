@@ -41,9 +41,7 @@ console.log(res.data);
 
   const { picture, nationality, mobile, name, email, card_Number , _id } = data || {};
 
-  const handleGenerateReport = () => {
-    alert(`تم إنشاء تقرير للمدرب ID ${trainerId}.`);
-  };
+
 
   const handleEditPlayer = (player: IFormInput) => {
     setSelectedPlayer(player);
@@ -168,7 +166,6 @@ console.log(res.data);
             <strong>كلمه السر:</strong> {res.data?.plaintextPassword || "غير محدد"}
           </p>
           <div className="flex gap-2">
-            <Button onClick={handleGenerateReport}>عمل تقرير</Button>
             <Button onClick={() => handleEditPlayer(data)}>
               تعديل التفاصيل
             </Button>

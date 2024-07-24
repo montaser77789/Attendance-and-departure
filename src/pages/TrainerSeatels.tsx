@@ -51,7 +51,7 @@ console.log(res.data);
     setValue("idNumber", player.idNumber);
     setValue("mobile", player.mobile);
     setValue("email", player.email);
-    setValue("password", player.password);
+    setValue("password",res.data?.plaintextPassword);
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {

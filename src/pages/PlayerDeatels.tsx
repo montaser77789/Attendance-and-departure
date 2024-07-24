@@ -74,10 +74,6 @@ const PlayerDetails = () => {
 
 
 
-const handleGenerateReport = () => {
- 
-}
-  
   
   
 
@@ -140,7 +136,7 @@ const handleGenerateReport = () => {
   return (
     <div className="container mx-auto p-4 mt-20">
       <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row items-center">
-        <div className="w-full md:w-1/3">
+        <div className="w-full md:w-1/2">
           <img
             src={picture}
             alt="Player"
@@ -148,7 +144,7 @@ const handleGenerateReport = () => {
           />
         </div>
         <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right">
-          <h2 className="text-2xl font-bold mb-2">{name || "اسم اللاعب"}</h2>
+          <h2 className="text-3xl font-bold mb-2">{name || "اسم اللاعب"}</h2>
           <p className="mb-2">
             <strong>تاريخ الميلاد:</strong> {dateOfBirth || "غير محدد"}
           </p>
@@ -179,8 +175,7 @@ const handleGenerateReport = () => {
           <p className="mb-2">
             <strong>عدد مرات الغياب:</strong> { reportData?.attendance?.absent  || "0"}
           </p>
-          <div className="flex gap-2 text-center justify-center mt-2">
-            <Button onClick={handleGenerateReport}>عمل تقرير</Button>
+          <div className="flex gap-2 text-center justify-end mt-4">
             <Button onClick={() => handleEditPlayer(data)}>
               تعديل التفاصيل
             </Button>

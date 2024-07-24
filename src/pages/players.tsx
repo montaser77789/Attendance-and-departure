@@ -21,7 +21,6 @@ const categoryOptions: IOption[] = [
   { value: "شباب", label: "شباب" },
   { value: "براعم", label: "براعم" },
   { value: "ناشئين", label: "ناشئين" },
-  { value: "ناشئين", label: "ناشئين" },
 
 ];
 

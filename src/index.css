@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+    font-family: 'Cairo', sans-serif;
+  }
+  h1, h2, h3 {
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  p {
+    font-family: 'Cairo', sans-serif;
+  }
+    

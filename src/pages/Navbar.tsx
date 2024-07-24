@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router-dom";
-import logo from "../assets/photo_2024-07-20_00-20-04.png";
+import logo from "../assets/photo_2024-07-20_00-20-04.png"
 import Cookies from "js-cookie";
 
 const NavBar = () => {

@@ -54,7 +54,7 @@ const Players = () => {
     player.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const { register, handleSubmit, reset, control } = useForm<IFormInput>();
+  const { register, handleSubmit, reset, control, formState: { errors }, } = useForm<IFormInput>();
 
   const handleSubmitCreate: SubmitHandler<IFormInput> = (data) => {
     console.log(data);
@@ -171,30 +171,68 @@ const Players = () => {
     
 <Modal title="اضافه لاعب جديد" isopen={isOpen} closeModal={() => setIsOpen(false)}>
         <form onSubmit={handleSubmit(handleSubmitCreate)} dir="rtl">
-          <div className="mb-2 space-y-1 text-right">
+        <div className="mb-2 space-y-1 text-right">
             <label htmlFor="playername">اسم اللاعب:</label>
-            <Input {...register("name")} id="playername" placeholder="اسم اللاعب" type="text" />
+            <Input
+              {...register("name", { required: "الاسم مطلوب", minLength: { value: 3, message: "يجب أن يتكون الاسم من 3 أحرف على الأقل" } })}
+              error={Boolean(errors.name)}
+              helperText={errors.name?.message}
+              id="playername"
+              placeholder="اسم اللاعب"
+              type="text"
+            />
           </div>
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="player">صوره اللاعب:</label>
             <Input {...register("picture")} id="player" placeholder="صوره اللاعب" type="file" />
             </div>
-          <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="player">الجنسية:</label>
-            <Input {...register("nationality")} id="player" placeholder="الجنسية" type="text" />
+            <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="playernationality">الجنسية:</label>
+            <Input
+              {...register("nationality", { required: "الجنسية مطلوبة" })}
+              error={Boolean(errors.nationality)}
+              helperText={errors.nationality?.message}
+              id="playernationality"
+              placeholder="الجنسية"
+              type="text"
+            />
           </div>
           <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="playerbirthday">تاريخ الميلاد:</label>
-            <Input {...register("dateOfBirth")} id="playerbirthday" placeholder="تاريخ الميلاد" type="date" />
-          </div>
-          <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="playerphone">رقم الهاتف:</label>
-            <Input {...register("mobile")} id="playerphone" placeholder="رقم الهاتف" type="text" />
-          </div>
-          <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="card_Number">رقم الهوية:</label>
-            <Input {...register("card_Number")} id="card_Number" placeholder="رقم الهوية" type="text" />
-          </div>
+  <label htmlFor="playerbirthday">تاريخ الميلاد:</label>
+  <Input
+    {...register("dateOfBirth", { required: "تاريخ الميلاد مطلوب" })}
+    error={Boolean(errors.dateOfBirth)}
+    helperText={errors.dateOfBirth?.message}
+    id="playerbirthday"
+    placeholder="تاريخ الميلاد"
+    type="date"
+  />
+</div>
+
+<div className="mb-2 space-y-2 text-right">
+  <label htmlFor="playerphone">رقم الهاتف:</label>
+  <Input
+    {...register("mobile", { required: "رقم الهاتف مطلوب" })}
+    error={Boolean(errors.mobile)}
+    helperText={errors.mobile?.message}
+    id="playerphone"
+    placeholder="رقم الهاتف"
+    type="text"
+  />
+</div>
+
+<div className="mb-2 space-y-2 text-right">
+  <label htmlFor="card_Number">رقم الهوية:</label>
+  <Input
+    {...register("card_Number", { required: "رقم الهوية مطلوب", minLength: { value: 6, message: "رقم الهوية يجب أن يتكون من 6 أرقام على الأقل" } })}
+    error={Boolean(errors.card_Number)}
+    helperText={errors.card_Number?.message}
+    id="card_Number"
+    placeholder="رقم الهوية"
+    type="text"
+  />
+</div>
+
           <div className="mb-2 space-y-1 text-right">
             <label htmlFor="category">الفئة:</label>
             <div className="relative">
@@ -237,9 +275,17 @@ const Players = () => {
           </div>
 
           <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="playercoach">المدرب:</label>
-            <Input {...register("coach")} id="playercoach" placeholder="المدرب" type="text" />
-          </div>
+  <label htmlFor="playercoach">المدرب:</label>
+  <Input
+    {...register("coach", { required: "اسم المدرب مطلوب" })}
+    error={Boolean(errors.coach)}
+    helperText={errors.coach?.message}
+    id="playercoach"
+    placeholder="المدرب"
+    type="text"
+  />
+</div>
+
 
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="doc_start">تاريخ بدايه العقد:</label>

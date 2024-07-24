@@ -30,13 +30,13 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-      await dispatch(loginUser(data)).unwrap(); 
+     const res = await dispatch(loginUser(data)).unwrap(); 
       setTimeout(() => {
         navigate('/'); // Navigate to home after successful login
         window.location.reload(); // Reload the page after navigation
       }, 1000); // Delay for 1 second
     
-      console.log('Login successful');
+      console.log(res);
     } catch (error) {
       console.error('Failed to login:', error);
     }

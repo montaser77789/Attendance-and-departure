@@ -16,7 +16,7 @@ const TrainerAttendance: React.FC = () => {
     const { dayId, monthId } = useParams<{ dayId: string; monthId: string }>();
     const { data, isLoading } = useGetTrainersQuery({});
     const dispatch = useDispatch();
-    const { trainerAttendance, trainerIds } = useSelector((state: RootState) => state.trainerAttendance);
+    const { trainerAttendance, trainerIds, notSelectedTrainerIds } = useSelector((state: RootState) => state.trainerAttendance);
 
     const [trainerAttendanceMutation, { isLoading: isSubmitting }] = useTrainerAttendanceMutation();
 
@@ -29,6 +29,7 @@ const TrainerAttendance: React.FC = () => {
             dayId: dayId || '',
             monthId: monthId || '',
             coach_ids: [...trainerIds],
+            not_selected_coach_ids: [...notSelectedTrainerIds], // أضف المصفوفة الجديدة هنا
         })
         .unwrap()
         .then((response) => {
@@ -40,12 +41,11 @@ const TrainerAttendance: React.FC = () => {
             console.error("Failed to create day:", error);
             errormsg({ msg: `${error?.data?.message}`  });
             dispatch(clearAttendance()); 
-
         });
     };
 
     return (
-        <div dir="rtl" className="mt-20   p-4 container">
+        <div dir="rtl" className="mt-20 p-4 container">
             {isLoading ? (
                 <p>جاري التحميل...</p>
             ) : data?.length === 0 ? (

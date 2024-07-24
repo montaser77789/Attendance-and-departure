@@ -59,11 +59,12 @@ export const    CvilizedregionApi = createApi({
           }),
 
           TrainerAttendance: builder.mutation({
-            query: ({ dayId , monthId, coach_ids }) => ({
+            query: ({ dayId , monthId, coach_ids,not_selected_coach_ids }) => ({
               url: `/app/audience/admin/audience_for_coach/${monthId}/${dayId}`,
               method: 'POST',
               body: {
-                coach_ids: coach_ids
+                coach_ids: coach_ids,
+                not_selected_coach_ids:not_selected_coach_ids
               },
               headers: {
                 Authorization: token 

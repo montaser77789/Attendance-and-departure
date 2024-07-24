@@ -38,7 +38,10 @@ export const loginUser = createAsyncThunk<User, LoginCredentials, { rejectValue:
       } as User;
       console.log(response);
       if (response.status === 200) {
-        Cookies.set('access_token', response.data.access_token); // تأكد من استخدام set بشكل صحيح
+        Cookies.set('access_token', response.data?.access_token);
+        Cookies.set('Admin', response.data?.Admin);
+        
+        // تأكد من استخدام set بشكل صحيح
         successmsg({ msg: `${response.data.success}` });
 
        

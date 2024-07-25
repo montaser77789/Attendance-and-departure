@@ -212,8 +212,7 @@ const Players = () => {
 <div className="mb-2 space-y-2 text-right">
   <label htmlFor="playerphone">رقم الهاتف:</label>
   <Input
-    {...register("mobile", { required: "رقم الهاتف مطلوب" })}
-    error={Boolean(errors.mobile)}
+    {...register("mobile")}
     helperText={errors.mobile?.message}
     id="playerphone"
     placeholder="رقم الهاتف"

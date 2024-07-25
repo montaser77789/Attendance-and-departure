@@ -1,13 +1,12 @@
 import { useState } from "react";
-import { BsTrash } from "react-icons/bs";
 import Button from "../components/ui/Button";
-import { NavLink } from "react-router-dom";
 import Input from "../components/ui/Input";
 import Modal from "../components/ui/Modal";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useCreateTrainerMutation, useDeleteTrainerMutation, useGetTrainersQuery } from "../app/Api/TrainerApiSlice";
+import { useCreateTrainerMutation, useGetTrainersQuery } from "../app/Api/TrainerApiSlice";
 import { Player } from "../interfaces";
 import { errormsg, successmsg } from "../toastifiy";
+import TrainerCard from "../components/TrainerCard";
 
 
 
@@ -27,15 +26,12 @@ interface IFormInput {
 const Trainer = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isOpen, setIsOpen] = useState(false);
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const [createTrainer ,{isLoading: isCreating}] = useCreateTrainerMutation();
   const { data: trainers , refetch , isLoading } = useGetTrainersQuery({})
   console.log(trainers);
-  const [selectedTrainerId, setSelectedTrainerId] = useState<string>("");
-  const [deleteTrainer, { isLoading: isDeleting } ] = useDeleteTrainerMutation();
 
-console.log(selectedTrainerId);
+
 
 const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -79,25 +75,7 @@ const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,
         errormsg({ msg: `${error.data}`})
       });
   };
-  const handleDelete = () => {
-    if (selectedTrainerId) {
-      console.log(selectedTrainerId);
-      
-      deleteTrainer(selectedTrainerId)
-        .unwrap()
-        .then((response) => {
-          console.log(response);
-          successmsg({ msg: `${response}` });
-          refetch(); 
-          setIsOpenDelete(false);
-          setSelectedTrainerId("");
-        })
-        .catch((error) => {
-          errormsg({msg:`${error}`})
-          console.error("Failed to delete player:", error);
-        });
-    }
-  };
+
 
 
   return (
@@ -121,42 +99,7 @@ const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,
       ) : filteredTrainers?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {filteredTrainers.map((trainer: Player) => (
-            <div
-              key={trainer._id}
-              className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col"
-            >
-              <img
-                src={trainer.picture ? trainer.picture : '/path/to/default-image.jpg'}
-                alt={trainer.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4 flex-1 flex flex-col">
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{trainer.name}</h3>
-                <p className="text-gray-700 mb-1 text-xl">
-                  الجنسية: <span className="text-gray-500"> {trainer.nationality}</span>
-                </p>
-                <p className="text-gray-700 mb-4 text-xl">
-                  رقم الهوية: <span className="text-gray-500"> {trainer.card_Number}</span>
-                </p>
-                <div className="flex justify-between items-center mt-auto">
-                  <NavLink to={`/trainers/${trainer._id}`}>
-                    <Button size="sm">تفاصيل</Button>
-                  </NavLink>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={() => {
-                        setSelectedTrainerId(trainer._id);
-                        setIsOpenDelete(true);
-                      }}
-                      size="sm"
-                      variant="danger"
-                    >
-                      <BsTrash size={17} />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </div>
+           <TrainerCard key={trainer._id} trainer={trainer}/>
           ))}
         </div>
       ) : (
@@ -267,13 +210,7 @@ const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,
         </form>
       </Modal>
 
-      <Modal title="حذف المدرب" isopen={isOpenDelete} closeModal={() => setIsOpenDelete(false)}>
-      <p className="text-right" dir="rtl">هل أنت متأكد أنك تريد حذف هذا المدرب؟</p>
-      <div className="flex justify-start mt-4">
-          <Button onClick={() => setIsOpenDelete(false)} >الغاء</Button>
-          <Button isloading={isDeleting}  onClick={handleDelete} className="ml-2" variant="danger">حذف</Button>
-        </div>
-      </Modal>
+    
     </div>
   );
 };

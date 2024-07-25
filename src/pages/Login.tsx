@@ -1,7 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useNavigate } from 'react-router-dom'; // استيراد useNavigate
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'; // استيراد useState
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'; // استيراد الأيقونات
 import Button from '../components/ui/Button';
 import Input from '../components/ui/Input';
 import InputErrormesg from '../components/ui/Inputerrormessage';
@@ -17,8 +19,9 @@ interface IFormInput {
 
 const LoginPage = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate(); // تهيئة useNavigate
+  const navigate = useNavigate();
   const { loading, error } = useSelector((state: RootState) => state.auth);
+  const [passwordVisible, setPasswordVisible] = useState(false); // حالة تتبع نوع الإدخال
 
   const {
     register,
@@ -30,12 +33,11 @@ const LoginPage = () => {
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
     try {
-     const res = await dispatch(loginUser(data)).unwrap(); 
+      const res = await dispatch(loginUser(data)).unwrap();
       setTimeout(() => {
-        navigate('/'); // Navigate to home after successful login
-        window.location.reload(); // Reload the page after navigation
-      }, 1000); // Delay for 1 second
-    
+        navigate('/');
+        window.location.reload();
+      }, 1000);
       console.log(res);
     } catch (error) {
       console.error('Failed to login:', error);
@@ -43,13 +45,21 @@ const LoginPage = () => {
   };
 
   const handleLogin = data_login.map(({ name, placeholder, type, validation }, index) => (
-    <div dir="rtl" key={index}>
+    <div dir="rtl" key={index} className="relative">
       <Input
         dir="rtl"
         {...register(name as keyof IFormInput, validation)}
         placeholder={placeholder}
-        type={type}
+        type={name === "password" ? (passwordVisible ? "text" : "password") : type} // تبديل نوع الإدخال
       />
+      {name === "password" && (
+        <span
+          className="absolute left-2 top-1/2 transform -translate-y-1/2 cursor-pointer" // ضبط الموقع باستخدام left
+          onClick={() => setPasswordVisible(!passwordVisible)} // تبديل حالة الرؤية
+        >
+          {passwordVisible ? <AiFillEyeInvisible /> : <AiFillEye />}
+        </span>
+      )}
       {errors[name as keyof IFormInput] && (
         <InputErrormesg msg={errors[name as keyof IFormInput]?.message} />
       )}

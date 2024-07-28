@@ -44,7 +44,7 @@ const Playercard = ({ player }: { player: Player }) => {
           <img
             src={player.picture}
             alt={player.name}
-            className="w-full h-48 object-cover"
+            className="w-full h-48 "
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">
@@ -52,11 +52,11 @@ const Playercard = ({ player }: { player: Player }) => {
             {player.name}
           </h3>
           <p className="text-gray-700 mb-1 text-xl">
-            الجنسية: <span className="text-gray-500">{player.nationality}</span>
+            الفئه: <span className="text-gray-500">{player.category}</span>
           </p>
           <p className="text-gray-700 mb-4 text-xl">
-            رقم الهوية:{" "}
-            <span className="text-gray-500">{player.card_Number}</span>
+             المدرب:
+            <span className="text-gray-500">{player.coach}</span>
           </p>
           <div className="flex justify-between items-center mt-auto">
             <NavLink to={`/players/${player._id}`}>

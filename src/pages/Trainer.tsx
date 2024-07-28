@@ -49,7 +49,7 @@ const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
-    formData.append("card_Number", data.mobile); 
+    formData.append("card_Number", data.card_Number || ""); 
 
     if (data.picture) {
       formData.append("file", data.picture[0]);

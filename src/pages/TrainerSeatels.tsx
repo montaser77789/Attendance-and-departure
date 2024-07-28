@@ -176,11 +176,11 @@ const TrainerDetails = () => {
             <label htmlFor="editplayeremail">الايميل:</label>
             <Input {...register("email")} id="editplayeremail" placeholder="الايميل" type="text" />
           </div>
-          <div className="mb-2 space-y-2 text-right">
+          <div  className="mb-2 space-y-2 text-right">
             <label htmlFor="editplayerpassword">كلمه السر:</label>
             <Input {...register("password")} id="editplayerpassword" placeholder="كلمه السر" type="text" />
           </div>
-          <div className="flex gap-2 justify-end items-center">
+          <div  className="flex gap-2 justify-end items-center">
             <Button isloading={isUpdating} type="submit">حفظ التعديلات</Button>
             <Button type="button" variant={"danger"} onClick={() => setIsOpenEdit(false)}>الغاء</Button>
           </div>

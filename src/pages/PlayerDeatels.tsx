@@ -67,7 +67,7 @@ const PlayerDetails = () => {
   const card_Number = data?.card_Number;
   const doc_start = data?.doc_start;
   const doc_end = data?.doc_end;
-  const { data: reportData } = useGetReportsQuery(id || "");
+  const { data: reportData , isLoading } = useGetReportsQuery(id || "");
 
   console.log(reportData);
 
@@ -135,7 +135,10 @@ const PlayerDetails = () => {
 
   return (
     <div className="container mx-auto p-4 mt-20">
+      
       <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row items-center">
+    {  isLoading ?  <div className="text-right w-full" dir="rtl">جاري التحميل...</div> :
+    <>
       <div className="w-full md:w-1/3">
       <img
             src={picture}
@@ -181,6 +184,8 @@ const PlayerDetails = () => {
             </Button>
           </div>
         </div>
+        </> }
+
       </div>
       <Modal
         title="تعديل اللاعب"

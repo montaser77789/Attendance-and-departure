@@ -140,10 +140,10 @@ console.log(data);
                 <strong>المدرب المسئول:</strong> {data?.coach || "غير محدد"}
               </p>
               <p className="mb-2">
-                <strong>تاريخ بداية البطاقة:</strong> {data?.doc_start || "غير محدد"}
+                <strong>تاريخ بداية العقد:</strong> {data?.doc_start || "غير محدد"}
               </p>
               <p className="mb-2">
-                <strong>تاريخ نهاية البطاقة:</strong> {data?.doc_end || "غير محدد"}
+                <strong>تاريخ نهاية العقد:</strong> {data?.doc_end || "غير محدد"}
               </p>
               <p className="mb-2">
                 <strong>عدد مرات الحضور:</strong> {data?.attendance?.present || "0"}
@@ -243,20 +243,20 @@ console.log(data);
             />
           </div>
           <div className="mb-2 space-y-1 text-right">
-            <label htmlFor="editplayerdocstart">تاريخ بداية البطاقة:</label>
+            <label htmlFor="editplayerdocstart">تاريخ بداية العقد:</label>
             <Input
               {...register("doc_start")}
               id="editplayerdocstart"
-              placeholder="تاريخ بداية البطاقة"
+              placeholder="تاريخ بداية العقد"
               type="date"
             />
           </div>
           <div className="mb-2 space-y-1 text-right">
-            <label htmlFor="editplayerdocend">تاريخ نهاية البطاقة:</label>
+            <label htmlFor="editplayerdocend">تاريخ نهاية العقد:</label>
             <Input
               {...register("doc_end")}
               id="editplayerdocend"
-              placeholder="تاريخ نهاية البطاقة"
+              placeholder="تاريخ نهاية العقد"
               type="date"
             />
           </div>

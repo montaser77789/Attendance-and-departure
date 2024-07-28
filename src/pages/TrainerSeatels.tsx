@@ -13,7 +13,7 @@ interface IFormInput {
   _id?: number;
   name: string;
   nationality: string;
-  idNumber: string;
+  card_Number: string;
   picture?: FileList;
   mobile?: string;
   category?: string;
@@ -32,6 +32,8 @@ const TrainerDetails = () => {
   const res = useGetTrainerByIdQuery(trainerId || "");
   
   const data = res.data?.data;
+  console.log(res.data);
+  
   const { picture, nationality, mobile, name, email, card_Number, _id } = data || {};
 
   const handleEditPlayer = (player: IFormInput) => {
@@ -39,17 +41,19 @@ const TrainerDetails = () => {
     setIsOpenEdit(true);
     setValue("name", player.name);
     setValue("nationality", player.nationality);
-    setValue("idNumber", player.idNumber);
+    setValue("card_Number", player.card_Number);
     setValue("mobile", player.mobile);
     setValue("email", player.email);
     setValue("password", res.data?.plaintextPassword);
   };
 
   const handleSubmitEdit: SubmitHandler<IFormInput> = (data) => {
+    console.log(data);
+    
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
-    formData.append("idNumber", data.idNumber);
+    formData.append("card_Number", data.card_Number);
     formData.append("email", data.email);
     formData.append("password", data.password);
 
@@ -62,8 +66,10 @@ const TrainerDetails = () => {
 
     updateTrainer({ id: selectedPlayer?._id, formData })
       .unwrap()
-      .then((response) => {
-        successmsg({ msg: `${response}` });
+      .then(() => {
+        console.log();
+        
+        successmsg({ msg: '!تم تحديث البيانات بنجاح'});
         setIsOpenEdit(false);
         res.refetch();
       })
@@ -157,6 +163,10 @@ const TrainerDetails = () => {
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="editplayerphone">رقم الهاتف:</label>
             <Input {...register("mobile")} id="editplayerphone" placeholder="رقم الهاتف" type="text" />
+          </div>
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="editplayerphone">رقم الهويه:</label>
+            <Input {...register("card_Number")} id="editplayerphone" placeholder="رقم الهاتف" type="text" />
           </div>
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="editplayeremail">الايميل:</label>

@@ -13,7 +13,7 @@ import LazyLoad from "react-lazyload";
 import AOS from "aos";
 import "aos/dist/aos.css";
 
-const Playercard = ({ player, index }: { player: Player, index: number }) => {
+const Playercard = ({ player, index }: { player: Player; index: number }) => {
   useEffect(() => {
     AOS.init({ duration: 1200 }); // Initialize AOS
   }, []);

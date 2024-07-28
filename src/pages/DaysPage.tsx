@@ -102,7 +102,7 @@ const DaysPage = () => {
   
 
   return (
-    <div className="mt-20 container p-4" dir="rtl">
+    <div className="mt-20 p-4" dir="rtl">
       <div className="mb-4">
         <div className="flex justify-between items-center">
 

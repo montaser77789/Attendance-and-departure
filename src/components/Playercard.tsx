@@ -15,7 +15,7 @@ import "aos/dist/aos.css";
 
 const Playercard = ({ player, index }: { player: Player, index: number }) => {
   useEffect(() => {
-    AOS.init({ duration: 1000 }); // Initialize AOS
+    AOS.init({ duration: 1200 }); // Initialize AOS
   }, []);
 
   const [selectedPlayerId, setSelectedPlayerId] = useState<string | null>(null);

@@ -106,7 +106,7 @@ const Cvilizedregion = () => {
   };
 
   return (
-    <div className="mt-20 container p-4" dir="rtl">
+    <div className="mt-20  p-4" dir="rtl">
         <div className="flex justify-between items-center mb-2">
         <h2 className="text-3xl font-bold">الشهور</h2>
         <Button onClick={() => setIsOpen(true)}>اضافه شهر جديد</Button>

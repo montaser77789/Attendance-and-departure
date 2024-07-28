@@ -98,8 +98,8 @@ const regEmail = /^(([^<>().,;:\s@"]+(\.[^<>().,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,
         <p className="text-center text-gray-700">جاري تحميل المدربين...</p>
       ) : filteredTrainers?.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {filteredTrainers.map((trainer: Player) => (
-           <TrainerCard key={trainer._id} trainer={trainer}/>
+          {filteredTrainers.map((trainer: Player , index: number) => (
+           <TrainerCard index={index} key={trainer._id} trainer={trainer}/>
           ))}
         </div>
       ) : (

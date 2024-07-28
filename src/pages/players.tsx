@@ -110,10 +110,12 @@ const Players = () => {
           <p className="text-center text-gray-700">جاري تحميل اللاعبين...</p>
         ) : filteredPlayers?.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredPlayers.map((player: Player) => (
-              <Playercard key={player._id} player={player} />
-            ))}
-          </div>
+          {filteredPlayers.map((player : Player, index : number) => (
+            <Playercard index={index} key={player._id} player={player} />
+          ))}
+        </div>
+        
+        
         ) : (
           <p className="text-center text-gray-700">
             لا يوجد لاعبين حتى الآن من فضلك اضف لاعب جديد .

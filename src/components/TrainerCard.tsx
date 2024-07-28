@@ -1,54 +1,60 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
+import { NavLink } from "react-router-dom";
 import {
   useDeleteTrainerMutation,
   useGetTrainersQuery,
 } from "../app/Api/TrainerApiSlice";
 import LazyLoad from "react-lazyload";
-import { NavLink } from "react-router-dom";
 import Button from "./ui/Button";
 import Modal from "./ui/Modal";
 import { errormsg, successmsg } from "../toastifiy";
 import { Player } from "../interfaces";
 import { BsTrash } from "react-icons/bs";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
-const TrainerCard = ({ trainer }: { trainer: Player }) => {
-  const [selectedTrainerId, setSelectedTrainerId] = useState<string>("");
+const TrainerCard = ({ trainer, index }: { trainer: Player, index: number }) => {
+  useEffect(() => {
+    AOS.init({ duration: 1000 }); // Initialize AOS
+  }, []);
+
+  const [selectedTrainerId, setSelectedTrainerId] = useState<string | null>(null);
+  const [isOpenDelete, setIsOpenDelete] = useState(false);
   const [deleteTrainer, { isLoading: isDeleting }] = useDeleteTrainerMutation();
   const { refetch } = useGetTrainersQuery({});
-  const [isOpenDelete, setIsOpenDelete] = useState(false);
 
   const handleDelete = () => {
     if (selectedTrainerId) {
-      console.log(selectedTrainerId);
-
       deleteTrainer(selectedTrainerId)
         .unwrap()
-        .then((response) => {
-          console.log(response);
-          successmsg({ msg: `${response}` });
+        .then(() => {
+          successmsg({ msg: "تم الحذف بنجاح" });
           refetch();
           setIsOpenDelete(false);
-          setSelectedTrainerId("");
+          setSelectedTrainerId(null);
         })
         .catch((error) => {
           errormsg({ msg: `${error}` });
-          console.error("Failed to delete player:", error);
+          console.error("Failed to delete trainer:", error);
         });
     }
   };
+
+  // Alternate animations based on index
+  const animations = ["fade-up", "zoom-in", "fade-down", "zoom-out"];
+  const animation = animations[index % animations.length];
+
   return (
     <div>
       <div
-        key={trainer._id}
+        data-aos={animation}
         className="bg-white shadow-lg rounded-lg overflow-hidden flex flex-col"
       >
         <LazyLoad height={200} offset={100}>
           <img
-            src={
-              trainer.picture ? trainer.picture : "/path/to/default-image.jpg"
-            }
+            src={trainer.picture || "/path/to/default-image.jpg"}
             alt={trainer.name}
-            className="h-72 w-full "
+            className="h-72 w-full object-cover"
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">
@@ -56,10 +62,9 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
             {trainer.name}
           </h3>
           <p className="text-gray-700 mb-1 text-xl">
-          رقم الجوال:{" "}
-            <span className="text-gray-500"> {trainer.mobile}</span>
+            رقم الجوال:{" "}
+            <span className="text-gray-500">{trainer.mobile}</span>
           </p>
-        
           <div className="flex justify-between items-center mt-auto">
             <NavLink to={`/trainers/${trainer._id}`}>
               <Button size="sm">تفاصيل</Button>
@@ -84,15 +89,12 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
         isopen={isOpenDelete}
         closeModal={() => setIsOpenDelete(false)}
       >
-        <p className="text-right" dir="rtl">
-          هل أنت متأكد أنك تريد حذف هذا المدرب؟
-        </p>
-        <div className="flex justify-start mt-4">
-          <Button onClick={() => setIsOpenDelete(false)}>الغاء</Button>
+        <p className="text-right">هل أنت متأكد أنك تريد حذف هذا المدرب؟</p>
+        <div className="flex justify-start mt-4 gap-2">
+          <Button onClick={() => setIsOpenDelete(false)}>إلغاء</Button>
           <Button
             isloading={isDeleting}
             onClick={handleDelete}
-            className="ml-2"
             variant="danger"
           >
             حذف
@@ -103,4 +105,4 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
   );
 };
 
-export default memo(TrainerCard) ;
+export default memo(TrainerCard);

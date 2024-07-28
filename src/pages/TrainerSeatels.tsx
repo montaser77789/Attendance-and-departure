@@ -161,8 +161,12 @@ const TrainerDetails = () => {
             <Input {...register("picture")} id="editplayer" placeholder="صورة المدرب" type="file" />
           </div>
           <div className="mb-2 space-y-2 text-right">
-            <label htmlFor="editplayerphone">رقم الهاتف:</label>
+            <label htmlFor="editplayerphone">رقم الجوال:</label>
             <Input {...register("mobile")} id="editplayerphone" placeholder="رقم الهاتف" type="text" />
+          </div>
+          <div className="mb-2 space-y-2 text-right">
+            <label htmlFor="nationality">الجنسية:</label>
+            <Input {...register("nationality")} id="nationality" placeholder="رقم الهاتف" type="text" />
           </div>
           <div className="mb-2 space-y-2 text-right">
             <label htmlFor="editplayerphone">رقم الهويه:</label>

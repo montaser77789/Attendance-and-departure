@@ -9,5 +9,6 @@ export interface Player {
     phoneNumber: string;
     category: string;
     coach: string;
+    mobile:string
   }
   

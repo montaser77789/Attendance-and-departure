@@ -48,7 +48,7 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
               trainer.picture ? trainer.picture : "/path/to/default-image.jpg"
             }
             alt={trainer.name}
-            className="w-full h-48 object-cover"
+            className="w-full h-48 "
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">
@@ -56,13 +56,10 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
             {trainer.name}
           </h3>
           <p className="text-gray-700 mb-1 text-xl">
-            الجنسية:{" "}
-            <span className="text-gray-500"> {trainer.nationality}</span>
+          رقم الجوال:{" "}
+            <span className="text-gray-500"> {trainer.mobile}</span>
           </p>
-          <p className="text-gray-700 mb-4 text-xl">
-            رقم الهوية:{" "}
-            <span className="text-gray-500"> {trainer.card_Number}</span>
-          </p>
+        
           <div className="flex justify-between items-center mt-auto">
             <NavLink to={`/trainers/${trainer._id}`}>
               <Button size="sm">تفاصيل</Button>

@@ -136,14 +136,14 @@ const PlayerDetails = () => {
   return (
     <div className="container mx-auto p-4 mt-20">
       <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col md:flex-row items-center">
-        <div className="w-full md:w-1/2">
-          <img
+      <div className="w-full md:w-1/3">
+      <img
             src={picture}
             alt="Player"
-            className="rounded-full w-48 h-48 object-cover mx-auto"
+            className=" rounded-xl shadow-2xl w-[400px] h-[300px] mx-auto"
           />
         </div>
-        <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right">
+        <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
           <h2 className="text-3xl font-bold mb-2">{name || "اسم اللاعب"}</h2>
           <p className="mb-2">
             <strong>تاريخ الميلاد:</strong> {dateOfBirth || "غير محدد"}

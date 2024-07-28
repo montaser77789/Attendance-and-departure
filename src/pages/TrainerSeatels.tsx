@@ -144,10 +144,10 @@ console.log(res.data);
           <img
             src={picture || 'default-image-url'} // Fallback to a default image if none exists
             alt="مدرب"
-            className="rounded-full w-48 h-48 object-cover mx-auto"
+            className="rounded-xl shadow-2xl w-[400px] h-[300px] mx-auto"
           />
         </div>
-        <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right">
+        <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
           <h2 className="text-2xl font-bold mb-2">{name || "اسم المدرب"}</h2>
          
           <p className="mb-2">

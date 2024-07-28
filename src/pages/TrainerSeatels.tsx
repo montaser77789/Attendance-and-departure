@@ -127,7 +127,7 @@ const TrainerDetails = () => {
               <p className="mb-2"><strong>رقم الهوية:</strong> {card_Number || "غير محدد"}</p>
               <p className="mb-2"><strong>الايميل:</strong> {email || "غير محدد"}</p>
               <p className="mb-2"><strong>كلمه السر:</strong> {res.data?.plaintextPassword || "غير محدد"}</p>
-              <div className="flex gap-2">
+              <div className="flex gap-2 text-center justify-end mt-4">
                 <Button onClick={() => handleEditPlayer(data)}>تعديل التفاصيل</Button>
                 {!data?.Admin ? (
                   <Button onClick={() => setIsOpenAdmin(true)}>ادمن</Button>

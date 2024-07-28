@@ -48,7 +48,7 @@ const TrainerCard = ({ trainer }: { trainer: Player }) => {
               trainer.picture ? trainer.picture : "/path/to/default-image.jpg"
             }
             alt={trainer.name}
-            className="w-full h-48 "
+            className="h-72 w-full "
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">

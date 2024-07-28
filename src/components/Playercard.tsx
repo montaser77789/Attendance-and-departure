@@ -44,7 +44,7 @@ const Playercard = ({ player }: { player: Player }) => {
           <img
             src={player.picture}
             alt={player.name}
-            className="w-full h-48 "
+            className="h-72 w-full "
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">

@@ -52,9 +52,9 @@ const TrainerCard = ({ trainer, index }: { trainer: Player, index: number }) => 
       >
         <LazyLoad height={200} offset={100}>
           <img
-            src={trainer.picture || "/path/to/default-image.jpg"}
+            src={trainer.picture}
             alt={trainer.name}
-            className="h-72 w-full object-cover"
+            className="h-72 w-full "
           />
         </LazyLoad>
         <div className="p-4 flex-1 flex flex-col">

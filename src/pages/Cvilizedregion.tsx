@@ -11,7 +11,7 @@ import {
   useGetManthesQuery,
 } from "../app/Api/Cvilizedregion";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import {  successmsg } from "../toastifiy";
+import {  errormsg, successmsg } from "../toastifiy";
 import { BsTrash } from "react-icons/bs";
 
 interface IOption {
@@ -89,6 +89,9 @@ const Cvilizedregion = () => {
           successmsg({ msg: "تم اضافه الشهر بنجاح !" });
         })
         .catch((error) => {
+          errormsg({msg:`${error?.data}`})
+          setIsOpen(false);
+
           console.error("Failed to create month:", error);
         });
     }
@@ -281,7 +284,7 @@ const Cvilizedregion = () => {
                     </Button> : "انهي اولا"}
                   </td>
                   <td>
-                  {month?.finish  ? <Button>تم الانهاء</Button> : <Button onClick={()=>{
+                  {month?.finish  ? <Button type="button">تم الانهاء</Button> : <Button onClick={()=>{
                       setFinishMonth(true)
                       setIdMonth(month._id)
                     }} >

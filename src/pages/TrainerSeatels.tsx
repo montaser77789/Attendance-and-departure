@@ -113,9 +113,9 @@ const TrainerDetails = () => {
   };
 
   return (
-    <div className="container mx-auto p-4 mt-20">
-      <div className="bg-white shadow-lg  rounded-lg p-6 flex flex-col md:flex-row items-center">
-        {res.isLoading ? (
+    <div className=" mx-auto p-4 mt-20">
+      <div className="bg-white shadow-lg rounded-lg p-0 md:p-6 flex flex-col md:flex-row items-center">
+      {res.isLoading ? (
           <div className="text-right w-full" dir="rtl">جاري التحميل...</div>
         ) : (
           <>
@@ -123,7 +123,7 @@ const TrainerDetails = () => {
               <img
                 src={picture || 'default-image-url'}
                 alt="مدرب"
-                className="rounded-xl shadow-2xl w-[400px] h-[300px] mx-auto"
+                className="rounded-xl shadow-2xl w-[380px] h-[300px] mx-auto"
               />
             </div>
             <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">

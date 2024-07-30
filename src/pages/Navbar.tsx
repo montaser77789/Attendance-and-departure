@@ -82,6 +82,19 @@ const NavBar = () => {
                 الطاقم الفني والاداري
               </NavLink>
             </li>
+            <li>
+              <NavLink
+                to="/reportsplayer"
+                className={({ isActive }) =>
+                  isActive
+                    ? "block rounded-lg px-10 py-3 text-sm font-medium text-white underline text-nowrap"
+                    : "block rounded-lg px-10 py-3 text-sm font-medium text-[#00e8c1] hover:text-white text-nowrap"
+                }
+                onClick={handleLinkClick}
+              >
+                التقارير
+              </NavLink>
+            </li>
             </>
 
             }

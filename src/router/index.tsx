@@ -12,6 +12,7 @@ import TrainerDeatels from "../pages/TrainerSeatels";
 import PlayerAttendance from "../pages/PlayerAttendance";
 import TrainerAttendance from "../pages/TrainerAttendance";
 import Reports from "../pages/Audience";
+import AllReportsPlayer from "../pages/AllReportsPlayer";
 
 const token = Cookies.get("access_token");
 const Admin = Cookies.get("Admin") === "true"; // Convert to boolean
@@ -99,6 +100,14 @@ const router = createBrowserRouter(
         element={
           <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
             <Reports />
+          </ProtectedRoute>
+        }
+      />
+        <Route
+        path="reportsplayer"
+        element={
+          <ProtectedRoute isAllowed={isAuthenticated} redirectPath="/login">
+            <AllReportsPlayer />
           </ProtectedRoute>
         }
       />

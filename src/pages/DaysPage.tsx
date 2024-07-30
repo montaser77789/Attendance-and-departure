@@ -124,7 +124,7 @@ const DaysPage = () => {
                   <Select
                     {...field}
                     options={dayOptions}
-                    placeholder="اختر الفئة"
+                    placeholder="اختر اليوم"
                     className="basic-single w-full"
                     classNamePrefix="select"
                     styles={{

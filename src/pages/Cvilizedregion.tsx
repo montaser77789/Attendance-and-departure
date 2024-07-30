@@ -7,10 +7,11 @@ import Select, { SingleValue } from "react-select";
 import {
   useCreateMonthMutation,
   useDeleteMonthMutation,
+  useFinishMonthMutation,
   useGetManthesQuery,
 } from "../app/Api/Cvilizedregion";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
-import { successmsg } from "../toastifiy";
+import {  successmsg } from "../toastifiy";
 import { BsTrash } from "react-icons/bs";
 
 interface IOption {
@@ -55,12 +56,17 @@ const Cvilizedregion = () => {
   console.log(data);
   const [isOpenDelete, setIsOpenDelete ] = useState(false);
   const [idDay , setIdDay] = useState("")
-
-
-
+  const [finishMonth , setFinishMonth] = useState(false)
+  const [idMonth , setIdMonth] = useState("")
   const [isOpen, setIsOpen] = useState(false);
-
   const { register, handleSubmit, control, reset } = useForm<IFormInput>();
+  const [finishMonthMutation , {isLoading:isLoadingFinish}] = useFinishMonthMutation({})
+  console.log(idMonth);
+  
+
+
+
+
 
   const onSubmit: SubmitHandler<IFormInput> = (data) => {
     if (data.month) {
@@ -105,6 +111,28 @@ const Cvilizedregion = () => {
  
   };
 
+  const handleFinish = () => {
+    finishMonthMutation({ id: idMonth })
+      .unwrap()
+      .then((response) => {
+        // Close the delete confirmation modal
+        setFinishMonth(false);
+        // Log the response and show a success message
+        console.log('Response:', response);
+        successmsg({ msg: `${response.data}` });
+      })
+      .catch((error) => {
+        // Log the error and close the modal
+        setFinishMonth(false);
+
+        console.error("Failed to finish month:", error);
+        successmsg({ msg: `${error.data}` });
+        setIsOpenDelete(false);
+      });
+  }
+  
+
+
   return (
     <div className="mt-20  p-4" dir="rtl">
         <div className="flex justify-between items-center mb-2">
@@ -127,7 +155,7 @@ const Cvilizedregion = () => {
                 <Select
                   {...field}
                   options={monthOptions}
-                  placeholder="اختر الفئة"
+                  placeholder="اختر الشهر"
                   className="basic-single w-full"
                   classNamePrefix="select"
                   styles={{
@@ -218,6 +246,8 @@ const Cvilizedregion = () => {
               <th className="border border-gray-300 p-2">ملاحظة</th>
               <th className="border border-gray-300 p-2">الأيام</th>
               <th className="border border-gray-300 p-2">حذف الشهر</th>
+              <th className="border border-gray-300 p-2">انهاء الشهر</th>
+
 
             </tr>
           </thead>
@@ -245,6 +275,14 @@ const Cvilizedregion = () => {
                       <BsTrash size={17} />
                     </Button>
                   </td>
+                  <td>
+                    <Button onClick={()=>{
+                      setFinishMonth(true)
+                      setIdMonth(month._id)
+                    }} >
+                      انهاء الشهر
+                    </Button>
+                  </td>
 
               </tr>
             ))}
@@ -260,6 +298,17 @@ const Cvilizedregion = () => {
       } 
           }>إلغاء</Button>
         </div>
+      </Modal>
+      <Modal title="انهاء الشهر" isopen={finishMonth} closeModal={() => setFinishMonth(false)} >
+      <p className="text-right">هل تريد انهاء هذا الشهر ؟</p>
+      <div className="flex justify-start gap-2 mt-4">
+          <Button  type="submit" isloading={isLoadingFinish}  variant="danger" onClick={handleFinish}>انهاء</Button>
+          <Button type="button" onClick={() =>{
+            setFinishMonth(false)
+      } 
+          }>إلغاء</Button>
+        </div>
+
       </Modal>
     </div>
   );

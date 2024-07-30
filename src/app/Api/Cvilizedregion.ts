@@ -108,6 +108,42 @@ export const    CvilizedregionApi = createApi({
               },
             }),
           }),
+
+
+          finishMonth: builder.mutation({
+            query: ({ id }) => ({
+              url: `app/audience/reset-attendance/${id}`,
+              method: 'POST',
+              headers: {
+                Authorization: token 
+              }
+            })
+          }),
+
+          getOldManthes: builder.query({
+            query: () => {
+              return {
+                url: 'app/audience/get_old_months',
+                headers: {
+                  Authorization: token
+                },
+               
+              };
+            }
+          }),
+
+          deleteMonthReports: builder.mutation({
+            query: ({  monthId }) => ({
+              url: `app/audience/delete_old_month/${monthId}`,
+              method: 'DELETE',
+              responseHandler: (response) => response.text(), 
+      
+              headers: {
+                Authorization: token
+              },
+            }),
+          }),
+
           
 
        
@@ -122,7 +158,8 @@ export const    CvilizedregionApi = createApi({
 
 export const { useCreateMonthMutation, 
      useGetManthesQuery , useCreateDayesMutation , usePlyerAttendanceMutation ,useTrainerAttendanceMutation,
-     useGetAudienceQuery, useDeleteDayeMutation ,useDeleteMonthMutation
+     useGetAudienceQuery, useDeleteDayeMutation ,useDeleteMonthMutation ,
+     useFinishMonthMutation , useGetOldManthesQuery , useDeleteMonthReportsMutation
   
     } = CvilizedregionApi
 

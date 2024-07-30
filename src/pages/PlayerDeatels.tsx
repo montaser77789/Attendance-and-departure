@@ -103,61 +103,62 @@ console.log(data);
 
   return (
     <div className=" mx-auto p-4 mt-20">
-      <div className="bg-white shadow-lg rounded-lg p-0 md:p-6 flex flex-col md:flex-row items-center">
-        {isLoading ? (
-          <div className="text-right w-full" dir="rtl">
-            جاري التحميل...
-          </div>
-        ) : (
-          <>
-            <div className="w-full md:w-1/3">
-              <img
-                src={data?.picture}
-                alt="Player"
-                className="rounded-xl shadow-2xl w-[380px] h-[300px] mx-auto"
-              />
-            </div>
-            <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
-              <h2 className="text-3xl font-bold mb-2">
-                {data?.name || "اسم اللاعب"}
-              </h2>
-              <p className="mb-2">
-                <strong>تاريخ الميلاد:</strong> {data?.dateOfBirth || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>رقم الجوال:</strong> {data?.mobile || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>الجنسية:</strong> {data?.nationality || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>رقم الهوية:</strong> {data?.card_Number || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>الفئة:</strong> {data?.category || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>المدرب المسئول:</strong> {data?.coach || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>تاريخ بداية العقد:</strong> {data?.doc_start || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>تاريخ نهاية العقد:</strong> {data?.doc_end || "غير محدد"}
-              </p>
-              <p className="mb-2">
-                <strong>عدد مرات الحضور:</strong> {data?.attendance?.present || "0"}
-              </p>
-              <p className="mb-2">
-                <strong>عدد مرات الغياب:</strong> {data?.attendance?.absent || "0"}
-              </p>
-              <div className="flex gap-2 text-center justify-end mt-4">
-                <Button onClick={() => handleEditPlayer(data)}>تعديل التفاصيل</Button>
-              </div>
-            </div>
-          </>
-        )}
+   <div className="bg-white shadow-lg rounded-lg p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center">
+  {isLoading ? (
+    <div className="text-right w-full" dir="rtl">
+      جاري التحميل...
+    </div>
+  ) : (
+    <>
+      <div className="w-full md:w-1/3 flex justify-center">
+        <img
+          src={data?.picture}
+          alt={data?.name}
+          className="rounded-xl shadow-2xl w-full max-w-[380px] h-auto mx-auto"
+        />
       </div>
+      <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
+        <h2 className="text-3xl font-bold mb-2">
+          {data?.name || "اسم اللاعب"}
+        </h2>
+        <p className="mb-2">
+          <strong>تاريخ الميلاد:</strong> {data?.dateOfBirth || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>رقم الجوال:</strong> {data?.mobile || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>الجنسية:</strong> {data?.nationality || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>رقم الهوية:</strong> {data?.card_Number || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>الفئة:</strong> {data?.category || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>المدرب المسئول:</strong> {data?.coach || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>تاريخ بداية العقد:</strong> {data?.doc_start || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>تاريخ نهاية العقد:</strong> {data?.doc_end || "غير محدد"}
+        </p>
+        <p className="mb-2">
+          <strong>عدد مرات الحضور:</strong> {data?.attendance?.present || "0"}
+        </p>
+        <p className="mb-2">
+          <strong>عدد مرات الغياب:</strong> {data?.attendance?.absent || "0"}
+        </p>
+        <div className="flex gap-2 text-center justify-end mt-4">
+          <Button onClick={() => handleEditPlayer(data)}>تعديل التفاصيل</Button>
+        </div>
+      </div>
+    </>
+  )}
+</div>
+
       <Modal
         title="تعديل اللاعب"
         isopen={isOpenEdit}

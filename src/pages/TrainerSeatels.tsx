@@ -114,37 +114,38 @@ const TrainerDetails = () => {
 
   return (
     <div className=" mx-auto p-4 mt-20">
-      <div className="bg-white shadow-lg rounded-lg p-0 md:p-6 flex flex-col md:flex-row items-center">
-      {res.isLoading ? (
-          <div className="text-right w-full" dir="rtl">جاري التحميل...</div>
-        ) : (
-          <>
-            <div className="w-full md:w-1/3">
-              <img
-                src={picture || 'default-image-url'}
-                alt="مدرب"
-                className="rounded-xl shadow-2xl w-[380px] h-[300px] mx-auto"
-              />
-            </div>
-            <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
-              <h2 className="text-2xl font-bold mb-2">{name || "اسم المدرب"}</h2>
-              <p className="mb-2"><strong>رقم الجوال:</strong> {mobile || "غير محدد"}</p>
-              <p className="mb-2"><strong>الجنسية:</strong> {nationality || "غير محدد"}</p>
-              <p className="mb-2"><strong>رقم الهوية:</strong> {card_Number || "غير محدد"}</p>
-              <p className="mb-2"><strong>الايميل:</strong> {email || "غير محدد"}</p>
-              <p className="mb-2"><strong>كلمه السر:</strong> {res.data?.plaintextPassword || "غير محدد"}</p>
-              <div className="flex gap-2 text-center justify-end mt-4">
-                <Button onClick={() => handleEditPlayer(data)}>تعديل التفاصيل</Button>
-                {!data?.Admin ? (
-                  <Button onClick={() => setIsOpenAdmin(true)}>ادمن</Button>
-                ) : (
-                  <Button onClick={() => setIsOpenAdmin(true)}>الغاء الادمن</Button>
-                )}
-              </div>
-            </div>
-          </>
-        )}
+    <div className="bg-white shadow-lg rounded-lg p-4 md:p-6 flex flex-col md:flex-row items-start md:items-center">
+  {res.isLoading ? (
+    <div className="text-right w-full" dir="rtl">جاري التحميل...</div>
+  ) : (
+    <>
+      <div className="w-full md:w-1/3 flex justify-center">
+        <img
+          src={picture || 'default-image-url'}
+          alt="مدرب"
+          className="rounded-xl shadow-2xl w-full max-w-[380px] h-auto mx-auto"
+        />
       </div>
+      <div className="w-full md:w-2/3 mt-4 md:mt-0 md:ml-6 text-right space-y-3">
+        <h2 className="text-2xl font-bold mb-2">{name || "اسم المدرب"}</h2>
+        <p className="mb-2"><strong>رقم الجوال:</strong> {mobile || "غير محدد"}</p>
+        <p className="mb-2"><strong>الجنسية:</strong> {nationality || "غير محدد"}</p>
+        <p className="mb-2"><strong>رقم الهوية:</strong> {card_Number || "غير محدد"}</p>
+        <p className="mb-2"><strong>الايميل:</strong> {email || "غير محدد"}</p>
+        <p className="mb-2"><strong>كلمه السر:</strong> {res.data?.plaintextPassword || "غير محدد"}</p>
+        <div className="flex gap-2 text-center justify-end mt-4">
+          <Button onClick={() => handleEditPlayer(data)}>تعديل التفاصيل</Button>
+          {!data?.Admin ? (
+            <Button onClick={() => setIsOpenAdmin(true)}>ادمن</Button>
+          ) : (
+            <Button onClick={() => setIsOpenAdmin(true)}>الغاء الادمن</Button>
+          )}
+        </div>
+      </div>
+    </>
+  )}
+</div>
+
 
       <Modal
         title="تعديل المدرب"

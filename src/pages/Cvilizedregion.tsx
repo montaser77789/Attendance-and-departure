@@ -44,6 +44,7 @@ interface IMonth {
   month: string | null;
   start: string;
   end: string;
+  finish:boolean
   note: string;
 }
 
@@ -52,6 +53,7 @@ const Cvilizedregion = () => {
     {}
   );
   const { data , isLoading:isLoadingGet  , refetch} = useGetManthesQuery({});
+  console.log(data)
   const [deleteMonth , {isLoading:isDeleting}]  = useDeleteMonthMutation({})
   console.log(data);
   const [isOpenDelete, setIsOpenDelete ] = useState(false);
@@ -117,6 +119,7 @@ const Cvilizedregion = () => {
       .then((response) => {
         // Close the delete confirmation modal
         setFinishMonth(false);
+        refetch()
         // Log the response and show a success message
         console.log('Response:', response);
         successmsg({ msg: `${response.data}` });
@@ -124,6 +127,8 @@ const Cvilizedregion = () => {
       .catch((error) => {
         // Log the error and close the modal
         setFinishMonth(false);
+        refetch()
+
 
         console.error("Failed to finish month:", error);
         successmsg({ msg: `${error.data}` });
@@ -265,7 +270,7 @@ const Cvilizedregion = () => {
                  
                 </td>
                 <td className="border border-gray-300 p-2 ">
-                <Button
+               {month?.finish  ?  <Button
                       onClick={() => {
                         setIsOpenDelete(true);
                         setIdDay(month._id);}}
@@ -273,15 +278,15 @@ const Cvilizedregion = () => {
                       variant="danger"
                     >
                       <BsTrash size={17} />
-                    </Button>
+                    </Button> : "انهي اولا"}
                   </td>
                   <td>
-                    <Button onClick={()=>{
+                  {month?.finish  ? <Button>تم الانهاء</Button> : <Button onClick={()=>{
                       setFinishMonth(true)
                       setIdMonth(month._id)
                     }} >
                       انهاء الشهر
-                    </Button>
+                    </Button>}
                   </td>
 
               </tr>

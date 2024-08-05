@@ -84,8 +84,8 @@ const TrainerDetails = () => {
       const response = await axios.patch(
         `https://pro1-4zoz.onrender.com/app/user/admin/access_admin/${_id}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
-      );
+        { headers: { Authorization: token } }
+      )
       successmsg({ msg: `${response.data}` });
       res.refetch();
       setIsOpenAdmin(false);
@@ -101,7 +101,7 @@ const TrainerDetails = () => {
       const response = await axios.patch(
         `https://pro1-4zoz.onrender.com/app/user/admin/un_access_admin/${_id}`,
         {},
-        { headers: { Authorization: `Bearer ${token}` } }
+        { headers: { Authorization: token } }
       );
       successmsg({ msg: `${response.data}` });
       res.refetch();

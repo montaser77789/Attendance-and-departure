@@ -47,7 +47,7 @@ const PlayerDetails = () => {
   const [isOpenEdit, setIsOpenEdit] = useState(false);
   const { register, handleSubmit, setValue, control } = useForm<IFormInput>();
   const [selectedPlayer, setSelectedPlayer] = useState<IFormInput | null>(null);
-  const [updatePlayer] = useUpdatePlayerMutation();
+  const [updatePlayer , {isLoading : isLoadingUpdate }] = useUpdatePlayerMutation();
 console.log(data);
 
   const handleEditPlayer = (player: IFormInput) => {
@@ -55,7 +55,6 @@ console.log(data);
     setIsOpenEdit(true);
     setValue("name", player.name);
     setValue("nationality", player.nationality);
-    setValue("idNumber", player.idNumber);
     setValue("dateOfBirth", player.dateOfBirth);
     setValue("mobile", player.mobile);
     setValue("category", player.category);
@@ -69,7 +68,7 @@ console.log(data);
     const formData = new FormData();
     formData.append("name", data.name);
     formData.append("nationality", data.nationality);
-    formData.append("idNumber", data.idNumber);
+    formData.append("card_Number", data.card_Number);
     formData.append("birthday", data.dateOfBirth || "");
     formData.append("doc_start", data.doc_start);
     formData.append("doc_end", data.doc_end);
@@ -213,7 +212,7 @@ console.log(data);
           <div className="mb-2 space-y-1 text-right">
             <label htmlFor="editplayeridnumber">رقم الهوية:</label>
             <Input
-              {...register("idNumber")}
+              {...register("card_Number")}
               id="editplayeridnumber"
               placeholder="رقم الهوية"
               type="text"
@@ -261,8 +260,9 @@ console.log(data);
               type="date"
             />
           </div>
-          <div className="mt-4">
-            <Button type="submit">حفظ التعديلات</Button>
+          <div className="mt-4  flex justify-end gap-4">
+            <Button isloading={isLoadingUpdate} type="submit">حفظ التعديلات</Button>
+            <Button type="button" onClick={() => setIsOpenEdit(false)} variant="danger">الغاء</Button>
           </div>
         </form>
       </Modal>

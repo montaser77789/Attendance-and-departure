@@ -31,8 +31,6 @@ export const    CvilizedregionApi = createApi({
               };
             }
           }),
-
-
           createDayes: builder.mutation({
             query: ({ id, data }) => ({
               url: `/app/audience/create_day/${id}`,
